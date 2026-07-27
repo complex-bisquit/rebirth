@@ -29,16 +29,15 @@ export function resetOnClicks() {
   handlers.splice(0, handlers.length)
 }
 
-const elemLeft = canvas.offsetLeft + canvas.clientLeft
-const elemTop = canvas.offsetTop + canvas.clientTop
-
 const debug = false
 
 canvas.addEventListener(
   "click",
   function (event) {
-    const x = event.pageX - elemLeft
-    const y = event.pageY - elemTop
+
+    const rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
 
     if (debug) {
       console.log(`received click on x: ${x}, y: ${y}`)
@@ -52,7 +51,7 @@ canvas.addEventListener(
         y > element.y &&
         y < element.y + element.height &&
         x > element.x &&
-        x < element.z + element.width
+        x < element.x + element.width
       ) {
         called = true
         if (debug) {
