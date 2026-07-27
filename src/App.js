@@ -28,7 +28,10 @@ class GameClient {
 
   update(state) {
     resetOnClicks()
-    Game.draw(state)
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // draw here
   }
 }
 
