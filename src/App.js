@@ -24,7 +24,6 @@ class GameClient {
     })),
       this.client.subscribe((state) => this.update(state)))
     this.client.start()
-    this.attachListeners()
   }
 
   update(state) {
