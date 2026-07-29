@@ -1,26 +1,49 @@
 export function draw(state) {
   const canvas = document.getElementById("canvas")
   const ctx = canvas.getContext("2d")
-	console.dir(state)
-  hexagon(ctx, state.G, 100, 50)
+  console.dir(state)
+  hexagon(ctx, state.G, 550, 25)
 }
 
 function hexagon(ctx, board, x, y) {
-  ctx.beginPath()
-  let tile = board[0]
-	if (board[0].type === "W") {
-		ctx.fillStyle = "blue"
-	}
+  const a = (y / 2) * Math.sqrt(3)
+  const b = y / 2
+  for (let countRow = 1; countRow < 20; countRow++) {
+    if ((countRow & 1) === 0 && countRow !== 1) {
+      y += 3 * b
+      x -= 21 * a
+    } else {
+      y += 3 * b
+      x -= 23 * a
+    }
+    for (let i = 1; i < 12; i++) {
+      ctx.beginPath()
+      const tile = board[i - 1 + (countRow - 1) * 11]
+      if (tile.type === "W") {
+        ctx.fillStyle = "blue"
+      } else if (tile.type === "D") {
+        ctx.fillStyle = "brown"
+      } else if (tile.type === "E") {
+        ctx.fillStyle = "grey"
+      } else if (tile.type === "P") {
+        ctx.fillStyle = "rgb(0,255,0)"
+      } else if (tile.type === "F") {
+        ctx.fillStyle = "rgb(7, 143, 7)"
+      } else if (tile.type === "C") {
+        ctx.fillStyle = "purple"
+      } else {
+        ctx.fillStyle = "yellow"
+      }
 
-  let a = (y / 2) * Math.sqrt(3)
-  let b = y / 2
-
-  ctx.moveTo(x, y)
-  ctx.lineTo(x - a, y + b)
-  ctx.lineTo(x - a, y + 3 * b)
-  ctx.lineTo(x, y + 4 * b)
-  ctx.lineTo(x + a, y + 3 * b)
-  ctx.lineTo(x + a, y + b)
-  ctx.closePath()
-  ctx.fill()
+      ctx.moveTo(x, y)
+      ctx.lineTo(x - a, y + b)
+      ctx.lineTo(x - a, y + 3 * b)
+      ctx.lineTo(x, y + 4 * b)
+      ctx.lineTo(x + a, y + 3 * b)
+      ctx.lineTo(x + a, y + b)
+      ctx.closePath()
+      ctx.fill()
+      x += 2 * a
+    }
+  }
 }

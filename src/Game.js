@@ -47,7 +47,7 @@ WCEPFDDPFCD
 WDECFPEDFDW
 WWEEEFCEPFW
 WCDMFPDECWW
-FFDFEMEDDWW
+WFFDFEMEDDW
 WWFCEECEWWW
 WFFFEDEEDDF
 FCDPMDEMDCF
@@ -78,8 +78,9 @@ WWWFCDPWWWW
 
   moves: {
     /** @type {Move} */
-    playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
-    drawCard(ctx) {},
+    //playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
+    //drawCard(ctx) {},
+    clickTile: function clickTile(move, tileID) {},
   },
 
   seed: "random-seed",
