@@ -1,7 +1,6 @@
 /** @import { Game, Move } from "boardgame.io" */
 import { TurnOrder } from "boardgame.io/core"
 
-
 function getNeighbours(board) {
   for (const tile of board) {
     if (tile.type === "W") {
@@ -15,11 +14,17 @@ function getNeighbours(board) {
     } else if (tile.id % 11 === 1) {
       tile.neighbours = [tile.id + 1, tile.id + 11, tile.id - 10] //links
     } else {
-      tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11, tile.id - 10, tile.id - 11]
+      tile.neighbours = [
+        tile.id - 1,
+        tile.id + 1,
+        tile.id + 10,
+        tile.id + 11,
+        tile.id - 10,
+        tile.id - 11,
+      ]
     }
   }
 }
-
 
 /** @type {Game} */
 export const Game = {
@@ -61,18 +66,15 @@ WWWFCDPWWWW
       const Tile = {
         id: id,
         type: kategorie,
-        occ: null //occ - occupied
+        occ: null, //occ - occupied
       }
       id++
       board.push(Tile)
     }
 
-
-getNeighbours(board)
+    getNeighbours(board)
     return board
   },
-
-
 
   moves: {
     /** @type {Move} */
@@ -98,5 +100,4 @@ getNeighbours(board)
   disableUndo: true,
 
   endIf: ({ G, ctx, random }) => {},
-
 }
