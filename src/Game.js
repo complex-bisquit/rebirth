@@ -31,5 +31,4 @@ export const Game = {
   disableUndo: true,
 
   endIf: ({ G, ctx, random }) => {},
-
 }
