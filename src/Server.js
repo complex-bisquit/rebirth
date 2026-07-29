@@ -1,6 +1,6 @@
-import { Server, Origins } from "boardgame.io/server";
+import { Server, Origins } from "boardgame.io/server"
 import serve from "koa-static"
-import { Game } from "./Game";
+import { Game } from "./Game"
 
 function makeId(length) {
   let result = ""
