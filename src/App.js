@@ -29,7 +29,7 @@ class GameClient {
 
   update(state) {
     resetOnClicks()
-    draw(state)
+    draw(state, this.client.moves)
   }
 }
 
