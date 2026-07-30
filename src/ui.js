@@ -18,11 +18,18 @@ export function draw(
 }
 
 function mouseHandler(mouseX, mouseY) {
-	for (let i = 1; i < 12; i++) {
-		if (i==11)
-	}
+  for (let countRow = 1; countRow < 20; countRow++) {
+    for (let i = 1; i < 12; i++) {
+      if ((countRow & 1) === 0 && countRow !== 1) {
+        y += 3 * b
+        x -= 23 * a
+      } else {
+        y += 3 * b
+        x -= 21 * a
+      }
+    }
+  }
 }
-
 function hexagon(ctx, board, x, y) {
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
