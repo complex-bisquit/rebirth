@@ -46,9 +46,14 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
     }
   }
   for (let curPoint of middle) {
+    console.log(
+      curPoint,
+      Math.pow(curPoint.x - mouseX, 2) + Math.pow(curPoint.y - mouseY, 2),
+    )
     const line = Math.sqrt(
       Math.pow(curPoint.x - mouseX, 2) + Math.pow(curPoint.y - mouseY, 2),
     )
+    console.log(line, curSmallestLine > line)
     if (curSmallestLine > line) {
       curSmallestLine = line
       smallID = curPoint.id
