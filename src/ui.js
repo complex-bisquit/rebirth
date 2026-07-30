@@ -14,7 +14,7 @@ export function draw(
   const a = (25 / 2) * Math.sqrt(3)
   const b = 25 / 2
   ctx.fillStyle = "rgba(255,0,0,0.5)"
-  ctx.fillRect(530 - a, 25, 498, 19.25 * 3 * b)
+  ctx.fillRect(530 - a, 25, 498, 9 * 2 * b + 10 * 4 * b) //9 für even, 10 für uneven
 }
 
 function hexagon(ctx, board, x, y) {
