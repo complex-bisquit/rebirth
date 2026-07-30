@@ -10,7 +10,7 @@ export function draw(
   const canvas = document.getElementById("canvas")
   const ctx = canvas.getContext("2d")
   console.dir(state)
-  hexagon(ctx, state.G, 550, 25)
+  hexagon(ctx, state.G, 1000, 25)
 }
 
 function hexagon(ctx, board, x, y) {
