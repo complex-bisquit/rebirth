@@ -17,14 +17,14 @@ export function draw(
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
   hexagon(ctx, state.G, x, y, a, b)
-  ctx.fillStyle = "rgba(255,0,0,0.5)"
-  ctx.fillRect(x - a, y, 498, 9 * 2 * b + 10 * 4 * b) //9 für even, 10 für uneven
+  //ctx.fillStyle = "rgba(255,0,0,0.5)"
+  //ctx.fillRect(x - a, y, 498, 9 * 2 * b + 10 * 4 * b) //9 für even, 10 für uneven
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
     mouseHandler(mouseX, mouseY, x, y, a, b, state.G)
   })
 }
 
-function mouseHandler(mouseX, mouseY, x, y, a, b, state) {
+function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
   let smallID
   const middle = []
@@ -33,7 +33,7 @@ function mouseHandler(mouseX, mouseY, x, y, a, b, state) {
       middle.push({
         x: x - 1,
         y: y + 2 * b - 1,
-        id: state.G[i - 1 + (countRow - 1) * 11].id,
+        id: state[i - 1 + (countRow - 1) * 11].id,
       })
       if ((countRow & 1) === 0 && countRow !== 1) {
         y += 3 * b
@@ -53,6 +53,8 @@ function mouseHandler(mouseX, mouseY, x, y, a, b, state) {
       smallID = curPoint.id
     }
   }
+  ctx.fillStyle = "red"
+  ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
 }
 function hexagon(ctx, board, x, y, a, b) {
   for (let countRow = 1; countRow < 20; countRow++) {
