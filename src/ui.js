@@ -17,7 +17,11 @@ export function draw(
   ctx.fillRect(530 - a, 25, 498, 9 * 2 * b + 10 * 4 * b) //9 für even, 10 für uneven
 }
 
-function mouseHandler(mouseX, mouseY) {}
+function mouseHandler(mouseX, mouseY) {
+	for (let i = 1; i < 12; i++) {
+		if (i==11)
+	}
+}
 
 function hexagon(ctx, board, x, y) {
   const a = (y / 2) * Math.sqrt(3)
@@ -26,6 +30,7 @@ function hexagon(ctx, board, x, y) {
     for (let i = 1; i < 12; i++) {
       ctx.beginPath()
       const tile = board[i - 1 + (countRow - 1) * 11]
+
       if (tile.type === "W") {
         ctx.fillStyle = "blue"
       } else if (tile.type === "D") {
@@ -50,7 +55,8 @@ function hexagon(ctx, board, x, y) {
       ctx.lineTo(x + a, y + b)
       ctx.closePath()
       ctx.fill()
-
+      ctx.fillStyle = "black"
+      ctx.fillRect(x - 1, y + 2 * b - 1, 2, 2)
       x += 2 * a
     }
     if ((countRow & 1) === 0 && countRow !== 1) {
