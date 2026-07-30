@@ -20,7 +20,7 @@ export function draw(
   //ctx.fillStyle = "rgba(255,0,0,0.5)"
   //ctx.fillRect(x - a, y, 498, 9 * 2 * b + 10 * 4 * b) //9 für even, 10 für uneven
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
-    mouseHandler(mouseX, mouseY, x, y, a, b, state.G)
+    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state.G)
   })
 }
 
@@ -52,9 +52,9 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       curSmallestLine = line
       smallID = curPoint.id
     }
+    // ctx.fillStyle = "red"
+    // ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
   }
-  ctx.fillStyle = "red"
-  ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
 }
 function hexagon(ctx, board, x, y, a, b) {
   for (let countRow = 1; countRow < 20; countRow++) {
