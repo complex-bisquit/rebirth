@@ -18,12 +18,13 @@ export function draw(
 }
 
 function mouseHandler(mouseX, mouseY, x, y, state) {
+	let curSmallestLine = Number.MAX_SAFE_INTEGER
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
   const middle = []
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
-      middle.push({ middleX: x - 1, middleY: y + 2 * b - 1 })
+      middle.push({ X: x - 1, : y + 2 * b - 1 })
       if ((countRow & 1) === 0 && countRow !== 1) {
         y += 3 * b
         x -= 23 * a
@@ -33,6 +34,9 @@ function mouseHandler(mouseX, mouseY, x, y, state) {
       }
     }
   }
+	for(let curPoint of middle) {
+
+	}
 }
 function hexagon(ctx, board, x, y) {
   const a = (y / 2) * Math.sqrt(3)
