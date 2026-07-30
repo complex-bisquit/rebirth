@@ -38,6 +38,9 @@ function mouseHandler(mouseX, mouseY, x, y, state) {
     const line = Math.sqrt(
       Math.pow(curPoint.x - mouseX, 2) + Math.pow(curPoint.y - mouseY, 2),
     )
+    if (curSmallestLine > line) {
+      curSmallestLine = line
+    }
   }
 }
 function hexagon(ctx, board, x, y) {
