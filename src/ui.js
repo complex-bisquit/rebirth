@@ -12,8 +12,9 @@ export function draw(
   console.dir(state)
   hexagon(ctx, state.G, 530, 25)
   const a = (25 / 2) * Math.sqrt(3)
+  const b = 25 / 2
   ctx.fillStyle = "rgba(255,0,0,0.5)"
-  ctx.fillRect(530 - a, 25, 498, 988)
+  ctx.fillRect(530 - a, 25, 498, 19.25 * 3 * b)
 }
 
 function hexagon(ctx, board, x, y) {
