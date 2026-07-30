@@ -26,8 +26,9 @@ export function draw(
 
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
-  let smallID
+  let smallID = 0
   const middle = []
+  console.log("hi")
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
       middle.push({
@@ -52,9 +53,10 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       curSmallestLine = line
       smallID = curPoint.id
     }
-    // ctx.fillStyle = "red"
-    // ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
+    ctx.fillStyle = "red"
+    ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
   }
+  console.log(smallID)
 }
 function hexagon(ctx, board, x, y, a, b) {
   for (let countRow = 1; countRow < 20; countRow++) {
