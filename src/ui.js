@@ -23,7 +23,7 @@ function mouseHandler(mouseX, mouseY, x, y, state) {
   const middle = []
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
-      middle
+      middle.push(x, y)
       if ((countRow & 1) === 0 && countRow !== 1) {
         y += 3 * b
         x -= 23 * a
