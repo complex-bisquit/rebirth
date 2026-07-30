@@ -11,19 +11,14 @@ export function draw(
   const ctx = canvas.getContext("2d")
   console.dir(state)
   hexagon(ctx, state.G, 1050, 25)
+  ctx.fillStyle = "rgba(255,0,0,0.5)"
+  ctx.fillRect(530, 63, 498, 988)
 }
 
 function hexagon(ctx, board, x, y) {
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
   for (let countRow = 1; countRow < 20; countRow++) {
-    if ((countRow & 1) === 0 && countRow !== 1) {
-      y += 3 * b
-      x -= 21 * a
-    } else {
-      y += 3 * b
-      x -= 23 * a
-    }
     for (let i = 1; i < 12; i++) {
       ctx.beginPath()
       const tile = board[i - 1 + (countRow - 1) * 11]
@@ -51,6 +46,13 @@ function hexagon(ctx, board, x, y) {
       ctx.lineTo(x + a, y + b)
       ctx.closePath()
       ctx.fill()
+      if ((countRow & 1) === 0 && countRow !== 1) {
+        y += 3 * b
+        x -= 21 * a
+      } else {
+        y += 3 * b
+        x -= 23 * a
+      }
       x += 2 * a
     }
   }
