@@ -3,7 +3,7 @@ import { Local, SocketIO } from "boardgame.io/multiplayer"
 import { resetOnClicks } from "./canvas"
 import { Debug } from "boardgame.io/debug"
 import { Game } from "./Game"
-import {draw} from "./ui";
+import { draw } from "./ui"
 
 const isMultiplayer = import.meta.env.VITE_REMOTE === "true"
 
@@ -28,7 +28,7 @@ class GameClient {
 
   update(state) {
     resetOnClicks()
-    draw(state)
+    draw(state, this.client.moves)
   }
 }
 
