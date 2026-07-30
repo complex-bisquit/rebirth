@@ -17,6 +17,8 @@ export function draw(
   ctx.fillRect(530 - a, 25, 498, 9 * 2 * b + 10 * 4 * b) //9 für even, 10 für uneven
 }
 
+function mouseHandler(mouseX, mouseY) {}
+
 function hexagon(ctx, board, x, y) {
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
