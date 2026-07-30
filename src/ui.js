@@ -26,10 +26,15 @@ export function draw(
 
 function mouseHandler(mouseX, mouseY, x, y, a, b, state) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
+  let smallID
   const middle = []
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
-      middle.push({ x: x - 1, y: y + 2 * b - 1, id: state:G.tileID})
+      middle.push({
+        x: x - 1,
+        y: y + 2 * b - 1,
+        id: state.G[i - 1 + (countRow - 1) * 11].id,
+      })
       if ((countRow & 1) === 0 && countRow !== 1) {
         y += 3 * b
         x -= 23 * a
@@ -45,6 +50,7 @@ function mouseHandler(mouseX, mouseY, x, y, a, b, state) {
     )
     if (curSmallestLine > line) {
       curSmallestLine = line
+      smallID = curPoint.id
     }
   }
 }
