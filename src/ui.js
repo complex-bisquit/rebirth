@@ -60,9 +60,9 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       curSmallestLine = line
       smallID = curPoint.id
     }
+    ctx.fillStyle = "red"
+    ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
   }
-  ctx.fillStyle = "red"
-  ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
   console.log(smallID)
 }
 function hexagon(ctx, board, x, y, a, b) {
