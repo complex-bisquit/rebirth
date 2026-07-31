@@ -51,7 +51,13 @@ export const Game = {
       bag3,
       bag4 = []
     bag4.length = 36
-    bag4.fill("F", 0, 11).fill("E", 12, 24)
+    bag4
+      .fill("F", 0, 12)
+      .fill("E", 12, 24)
+      .fill("D1", 24, 27)
+      .fill("D2", 27, 30)
+      .fill("D3", 30, 33)
+      .fill("D4", 33, 36)
     console.log(bag4)
     for (let i = 0; i < 36; i++) {}
     // W = Wasser
