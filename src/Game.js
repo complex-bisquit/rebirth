@@ -2,15 +2,14 @@
 import { TurnOrder } from "boardgame.io/core"
 
 function getNeighbours(board) {
-  let countRow = 1
   let offset = 0 // HELL
   for (const tile of board) {
     offset = 0
     if (tile.type === "W") {
       continue
     }
-    if ((countRow & 1) === 1) {
-      offset = 2
+    if ((tile.row & 1) === 1) {
+      offset = 1
     }
     if (tile.id < 12) {
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11] //oben
@@ -29,9 +28,6 @@ function getNeighbours(board) {
         tile.id - 12 + offset,
         tile.id - 11 + offset,
       ]
-    }
-    if (tile.id % 11 === 0) {
-      countRow++
     }
   }
 }
@@ -69,14 +65,17 @@ WWWFCDPWWWW
 `
     let id = 1
     const board = []
+    let rowNum = 0
     for (const kategorie of kategorien) {
       if (kategorie == "\n") {
+        rowNum++
         continue
       }
       const Tile = {
         id: id,
         type: kategorie,
         occ: null, //occ - occupied
+        row: rowNum,
       }
       id++
       board.push(Tile)
