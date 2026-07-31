@@ -2,6 +2,7 @@
 import { TurnOrder } from "boardgame.io/core"
 
 function getNeighbours(board) {
+  let countRow = 1
   for (const tile of board) {
     if (tile.type === "W") {
       continue
@@ -13,6 +14,9 @@ function getNeighbours(board) {
       tile.neighbours = [tile.id - 1, tile.id - 11, tile.id + 11] //rechts
     } else if (tile.id % 11 === 1) {
       tile.neighbours = [tile.id + 1, tile.id + 11, tile.id - 11] //links
+      if (countRow % 2 === 0) {
+        tile.neighbours.push(tile.id + 12, tile.id - 10)
+      }
     } else {
       tile.neighbours = [
         tile.id - 1,
@@ -23,6 +27,7 @@ function getNeighbours(board) {
         tile.id - 10,
       ]
     }
+    countRow++
   }
 }
 
