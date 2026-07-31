@@ -118,6 +118,8 @@ WWWFCDPWWWW
         id: id,
         type: kategorie,
         occ: null, //occ - occupied
+        //null - not occupied. 1 - occupied by player 1. 2 - occupied by player 2
+        //3 - occupied by player 3. 4 - occupied by player 4
         row: rowNum,
       }
       id++
@@ -132,7 +134,9 @@ WWWFCDPWWWW
     /** @type {Move} */
     //playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
     //drawCard(ctx) {},
-    clickTile: function clickTile(player, state) {},
+    clickTile: function clickTile(player, state) {
+      //state.G[]
+    },
   },
 
   seed: "random-seed",
