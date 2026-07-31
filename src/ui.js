@@ -67,9 +67,12 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
   ctx.fillRect(middle[smallID - 1].x, middle[smallID - 1].y, 5, 5)
   console.log(smallID)
 
-  for (neighbour of state.G.neighbours) {
-    ctx.fillStyle = "red"
-    ctx.fillRect(middle[smallID - 1].x, middle[smallID - 1].y, 5, 5)
+  for (neighbour of state[tile].neighbours) {
+    if (state.type === "W") {
+      continue
+    }
+    ctx.fillStyle = "white"
+    ctx.fillRect(middle[neighbour - 1].x, middle[neighbour - 1].y, 5, 5)
   }
 }
 
