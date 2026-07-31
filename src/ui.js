@@ -47,9 +47,7 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       x -= 21 * a
     }
   }
-  let counter = 0
   for (let curPoint of middle) {
-    console.log(counter)
     console.log(
       curPoint,
       mouseX,
@@ -64,13 +62,12 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       curSmallestLine = line
       smallID = curPoint.id
     }
-
-    counter += 1
   }
   ctx.fillStyle = "red"
-  ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
+  ctx.fillRect(middle[smallID - 1].x, middle[smallID - 1].y, 5, 5)
   console.log(smallID)
 }
+
 function hexagon(ctx, board, x, y, a, b) {
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
