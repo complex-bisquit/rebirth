@@ -12,6 +12,7 @@ function getNeighbours(board) {
       offset = 1
     }
     if (tile.id < 12) {
+      // don't touch (for now)
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11] //oben
     } else if (tile.id > 198) {
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id - 12, tile.id - 11] //unten

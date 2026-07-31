@@ -28,18 +28,16 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
   let smallID = 0
   const middle = []
-  console.log("hi")
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
       middle.push({
         x: x - 1,
         y: y + 2 * b - 1,
         id: state[i - 1 + (countRow - 1) * 11].id,
-      }) // DAS MUSS AUCH SEIN x += 2 * a!!!
+      })
       x += 2 * a
     }
     if ((countRow & 1) === 0 && countRow !== 1) {
-      //außerhalb des i loops machen!!!!!!!!!!!
       y += 3 * b
       x -= 23 * a
     } else {
