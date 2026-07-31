@@ -45,6 +45,7 @@ export const Game = {
     const player1 = {
       score: 0,
       bag: [],
+      handTile: null,
     }
     const player2 = player1,
       player3 = player1,
@@ -57,10 +58,12 @@ export const Game = {
       .fill("D2", 27, 30)
       .fill("D3", 30, 33)
       .fill("D4", 33, 36)
+
     player1.bag = random.Shuffle(player1.bag)
     player2.bag = random.Shuffle(player1.bag)
     player3.bag = random.Shuffle(player1.bag)
     player4.bag = random.Shuffle(player1.bag)
+
     player1.bag.pop() //delete 2 elements
     player1.bag.pop()
     player2.bag.pop()
@@ -69,10 +72,11 @@ export const Game = {
     player3.bag.pop()
     player4.bag.pop()
     player4.bag.pop()
-    let handTile1 = player1.bag.pop()
-    let handTile2 = player2.bag.pop()
-    let handTile3 = player3.bag.pop()
-    let handTile4 = player4.bag.pop()
+
+    player1.handTile = player1.bag.pop()
+    player2.handTile = player2.bag.pop()
+    player3.handTile = player3.bag.pop()
+    player1.handTile = player4.bag.pop()
     for (let i = 0; i < 36; i++) {}
     // W = Wasser
     // D = Dorf
@@ -128,7 +132,7 @@ WWWFCDPWWWW
     /** @type {Move} */
     //playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
     //drawCard(ctx) {},
-    clickTile: function clickTile(move, tileID) {},
+    clickTile: function clickTile(player, state) {},
   },
 
   seed: "random-seed",
