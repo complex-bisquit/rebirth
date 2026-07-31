@@ -5,7 +5,7 @@ function getNeighbours(board) {
   let countRow = 1
   let offset = 0 // HELL
   for (const tile of board) {
-    offset = 1
+    offset = 0
     if (tile.type === "W") {
       continue
     }
@@ -30,7 +30,9 @@ function getNeighbours(board) {
         tile.id - 10 - offset,
       ]
     }
-    countRow++
+    if (tile.id % 11 === 0) {
+      countRow++
+    }
   }
 }
 
