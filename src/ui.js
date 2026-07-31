@@ -47,7 +47,9 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       x -= 21 * a
     }
   }
+  let counter = 0
   for (let curPoint of middle) {
+    console.log(counter)
     console.log(
       curPoint,
       Math.pow(curPoint.x - mouseX, 2) + Math.pow(curPoint.y - mouseY, 2),
@@ -60,8 +62,11 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       curSmallestLine = line
       smallID = curPoint.id
     }
-    ctx.fillStyle = "red"
-    ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
+    if (counter === 209) {
+      ctx.fillStyle = "red"
+      ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
+    }
+    counter += 1
   }
   console.log(smallID)
 }
