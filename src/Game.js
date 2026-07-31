@@ -23,10 +23,10 @@ function getNeighbours(board) {
       tile.neighbours = [
         tile.id - 1,
         tile.id + 1,
-        tile.id + 10 + offset,
-        tile.id + 11 + offset,
-        tile.id - 12 + offset,
-        tile.id - 11 + offset,
+        tile.id + 12 - offset,
+        tile.id + 11 - offset,
+        tile.id - 10 - offset,
+        tile.id - 11 - offset,
       ]
     }
   }
