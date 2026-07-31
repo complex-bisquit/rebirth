@@ -6,7 +6,9 @@ function getNeighbours(board) {
   for (const tile of board) {
     if (tile.type === "W") {
       continue
-    } else if (tile.id < 12) {
+    }
+    //if ((countRow & 1) === 1)
+    if (tile.id < 12) {
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11] //oben
     } else if (tile.id > 198) {
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id - 12, tile.id - 11] //unten
@@ -14,9 +16,6 @@ function getNeighbours(board) {
       tile.neighbours = [tile.id - 1, tile.id - 11, tile.id + 11] //rechts
     } else if (tile.id % 11 === 1) {
       tile.neighbours = [tile.id + 1, tile.id + 11, tile.id - 11] //links
-      if (countRow % 2 === 0) {
-        tile.neighbours.push(tile.id + 12, tile.id - 10)
-      }
     } else {
       tile.neighbours = [
         tile.id - 1,
