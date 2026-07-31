@@ -134,7 +134,7 @@ WWWFCDPWWWW
     /** @type {Move} */
     //playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
     //drawCard(ctx) {},
-    clickTile: function clickTile(player, state) {
+    clickTile: function clickTile(player, state, id) {
       //state.G[]
     },
   },
