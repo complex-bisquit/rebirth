@@ -1,5 +1,6 @@
 /** @import { Game, Move } from "boardgame.io" */
 import { TurnOrder } from "boardgame.io/core"
+import { INVALID_MOVE } from "boardgame.io/core"
 
 function getNeighbours(board) {
   let offset = 0 // HELL
@@ -135,6 +136,9 @@ WWWFCDPWWWW
     //playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
     //drawCard(ctx) {},
     clickTile: function clickTile(state, id) {
+      if (state.G[id].occ != null || state.G[id].type === "W") {
+        return INVALID_MOVE
+      }
       state.G[id].occ = state.ctx.currentPlayer
     },
   },
