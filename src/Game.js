@@ -62,7 +62,14 @@ export const Game = {
     bag2 = random.Shuffle(bag4)
     bag3 = random.Shuffle(bag4)
     bag4 = random.Shuffle(bag4)
-    bag1.pop(0, 1)
+    bag1.pop()
+    bag1.pop()
+    bag2.pop()
+    bag2.pop()
+    bag3.pop()
+    bag3.pop()
+    bag4.pop()
+    bag4.pop()
     console.log(bag1, bag2, bag3, bag4)
     for (let i = 0; i < 36; i++) {}
     // W = Wasser
