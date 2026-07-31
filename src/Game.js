@@ -43,17 +43,12 @@ function getNeighbours(board) {
 export const Game = {
   setup: ({ random, ctx }) => {
     const player1 = {
-      score: 0
-      bag: []
+      score: 0,
+      bag: [],
     }
-    let score1 = 0,
-      score2 = 0,
-      score3 = 0,
-      score4 = 0
-    let bag1
-      bag2,
-      bag3,
-      bag4 = []
+    const player2 = player1,
+      player3 = player1,
+      player4 = player1
     player1.bag.length = 36
     player1.bag
       .fill("F", 0, 12)
@@ -63,18 +58,17 @@ export const Game = {
       .fill("D3", 30, 33)
       .fill("D4", 33, 36)
     player1.bag = random.Shuffle(player1.bag)
-    bag2 = random.Shuffle(player1.bag
-    )
-    bag3 = random.Shuffle(bag4)
-    bag4 = random.Shuffle(bag4)
-    bag1.pop()//delete 2 elements
-    bag1.pop()
-    bag2.pop()
-    bag2.pop()
-    bag3.pop()
-    bag3.pop()
-    bag4.pop()
-    bag4.pop()
+    player2.bag = random.Shuffle(player1.bag)
+    player3.bag = random.Shuffle(player1.bag)
+    player4.bag = random.Shuffle(player1.bag)
+    player1.bag.pop() //delete 2 elements
+    player1.bag.pop()
+    player2.bag.pop()
+    player2.bag.pop()
+    player3.bag.pop()
+    player3.bag.pop()
+    player4.bag.pop()
+    player4.bag.pop()
     let handTile1 = bag1.pop()
     let handTile2 = bag2.pop()
     let handTile3 = bag3.pop()
