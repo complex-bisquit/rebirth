@@ -20,11 +20,11 @@ export function draw(
   //ctx.fillStyle = "rgba(255,0,0,0.5)"
   //ctx.fillRect(x - a, y, 498, 9 * 2 * b + 10 * 4 * b) //9 für even, 10 für uneven
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
-    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state.G)
+    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state.G, moves)
   })
 }
 
-function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
+function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
   let smallID = 0
   const middle = []
@@ -54,6 +54,9 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       smallID = curPoint.id
     }
   }
+
+  moves.clickTile(smallID)
+
   ctx.fillStyle = "red"
   ctx.fillRect(middle[smallID - 1].x, middle[smallID - 1].y, 5, 5)
   console.log(smallID)
