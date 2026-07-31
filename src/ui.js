@@ -36,14 +36,15 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
         y: y + 2 * b - 1,
         id: state[i - 1 + (countRow - 1) * 11].id,
       }) // DAS MUSS AUCH SEIN x += 2 * a!!!
-      if ((countRow & 1) === 0 && countRow !== 1) {
-        //außerhalb des i loops machen!!!!!!!!!!!
-        y += 3 * b
-        x -= 23 * a
-      } else {
-        y += 3 * b
-        x -= 21 * a
-      }
+      x += 2 * a
+    }
+    if ((countRow & 1) === 0 && countRow !== 1) {
+      //außerhalb des i loops machen!!!!!!!!!!!
+      y += 3 * b
+      x -= 23 * a
+    } else {
+      y += 3 * b
+      x -= 21 * a
     }
   }
   for (let curPoint of middle) {
@@ -59,9 +60,9 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       curSmallestLine = line
       smallID = curPoint.id
     }
-    ctx.fillStyle = "red"
-    ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
   }
+  ctx.fillStyle = "red"
+  ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
   console.log(smallID)
 }
 function hexagon(ctx, board, x, y, a, b) {
