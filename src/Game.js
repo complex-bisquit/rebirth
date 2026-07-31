@@ -6,21 +6,21 @@ function getNeighbours(board) {
     if (tile.type === "W") {
       continue
     } else if (tile.id < 12) {
-      tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 12, tile.id + 11] //oben
+      tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11] //oben
     } else if (tile.id > 198) {
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id - 12, tile.id - 11] //unten
     } else if (tile.id % 11 === 0) {
-      tile.neighbours = [tile.id - 1, tile.id - 11, tile.id + 10] //rechts
+      tile.neighbours = [tile.id - 1, tile.id - 11, tile.id + 11] //rechts
     } else if (tile.id % 11 === 1) {
-      tile.neighbours = [tile.id + 1, tile.id + 11, tile.id - 10] //links
+      tile.neighbours = [tile.id + 1, tile.id + 11, tile.id - 11] //links
     } else {
       tile.neighbours = [
         tile.id - 1,
         tile.id + 1,
         tile.id + 12,
         tile.id + 11,
-        tile.id - 12,
         tile.id - 11,
+        tile.id - 10,
       ]
     }
   }
