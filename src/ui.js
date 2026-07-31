@@ -66,6 +66,11 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
   ctx.fillStyle = "red"
   ctx.fillRect(middle[smallID - 1].x, middle[smallID - 1].y, 5, 5)
   console.log(smallID)
+
+  for (neighbour of state.G.neighbours) {
+    ctx.fillStyle = "red"
+    ctx.fillRect(middle[smallID - 1].x, middle[smallID - 1].y, 5, 5)
+  }
 }
 
 function hexagon(ctx, board, x, y, a, b) {
