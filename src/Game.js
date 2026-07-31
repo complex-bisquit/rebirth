@@ -134,8 +134,8 @@ WWWFCDPWWWW
     /** @type {Move} */
     //playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
     //drawCard(ctx) {},
-    clickTile: function clickTile(player, state, id) {
-      //state.G[]
+    clickTile: function clickTile(player, state, ctx, id) {
+      state.G[id].occ = ctx.currentPlayer
     },
   },
 
