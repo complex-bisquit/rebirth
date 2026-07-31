@@ -1,6 +1,6 @@
 import { Client } from "boardgame.io/client"
 import { Local, SocketIO } from "boardgame.io/multiplayer"
-import { resetOnClicks } from "./canvas"
+import { clearFrame, resetOnClicks } from "./canvas"
 import { Debug } from "boardgame.io/debug"
 import { Game } from "./Game"
 import { draw } from "./ui"
@@ -28,6 +28,7 @@ class GameClient {
 
   update(state) {
     resetOnClicks()
+    clearFrame()
     draw(state, this.client.moves)
   }
 }

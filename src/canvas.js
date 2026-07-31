@@ -29,12 +29,17 @@ export function resetOnClicks() {
   handlers.splice(0, handlers.length)
 }
 
+export function clearFrame() {
+  const canvas = document.getElementById("canvas")
+  const ctx = canvas.getContext("2d")
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+}
+
 const debug = false
 
 canvas.addEventListener(
   "click",
   function (event) {
-
     const rect = canvas.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
