@@ -67,7 +67,7 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
   ctx.fillRect(middle[smallID - 1].x, middle[smallID - 1].y, 5, 5)
   console.log(smallID)
 
-  for (neighbour of state[tile].neighbours) {
+  for (let neighbour of state[smallID - 1].neighbours) {
     if (state.type === "W") {
       continue
     }
