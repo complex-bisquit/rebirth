@@ -10,7 +10,7 @@ function getNeighbours(board) {
       continue
     }
     if ((countRow & 1) === 1) {
-      offset = 1
+      offset = 2
     }
     if (tile.id < 12) {
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11] //oben
@@ -26,8 +26,8 @@ function getNeighbours(board) {
         tile.id + 1,
         tile.id + 10 + offset,
         tile.id + 11 + offset,
-        tile.id - 11 - offset,
-        tile.id - 10 - offset,
+        tile.id - 12 + offset,
+        tile.id - 11 + offset,
       ]
     }
     if (tile.id % 11 === 0) {
