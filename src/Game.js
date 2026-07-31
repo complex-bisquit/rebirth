@@ -17,8 +17,14 @@ function getNeighbours(board) {
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id - 12, tile.id - 11] //unten
     } else if (tile.id % 11 === 0) {
       tile.neighbours = [tile.id - 1, tile.id - 11, tile.id + 11] //rechts
+      if ((tile.row & 1) === 1) {
+        tile.neighbours.push(tile.id + 10, tile.id - 12)
+      }
     } else if (tile.id % 11 === 1) {
       tile.neighbours = [tile.id + 1, tile.id + 11, tile.id - 11] //links
+      if ((tile.row & 1) === 0) {
+        tile.neighbours.push(tile.id + 12, tile.id - 10)
+      }
     } else {
       tile.neighbours = [
         tile.id - 1,
