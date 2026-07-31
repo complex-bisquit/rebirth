@@ -62,12 +62,11 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
       curSmallestLine = line
       smallID = curPoint.id
     }
-    if (counter === 209) {
-      ctx.fillStyle = "red"
-      ctx.fillRect(curPoint.x, curPoint.y, 5, 5)
-    }
+
     counter += 1
   }
+  ctx.fillStyle = "red"
+  ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
   console.log(smallID)
 }
 function hexagon(ctx, board, x, y, a, b) {
