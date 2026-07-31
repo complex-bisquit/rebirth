@@ -5,31 +5,32 @@ function getNeighbours(board) {
   let countRow = 1
   let offset = 0 // HELL
   for (const tile of board) {
+    offset = 1
     if (tile.type === "W") {
       continue
     }
     if ((countRow & 1) === 1) {
       offset = 2
-      if (tile.id < 12) {
-        tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11] //oben
-      } else if (tile.id > 198) {
-        tile.neighbours = [tile.id - 1, tile.id + 1, tile.id - 12, tile.id - 11] //unten
-      } else if (tile.id % 11 === 0) {
-        tile.neighbours = [tile.id - 1, tile.id - 11, tile.id + 11] //rechts
-      } else if (tile.id % 11 === 1) {
-        tile.neighbours = [tile.id + 1, tile.id + 11, tile.id - 11] //links
-      } else {
-        tile.neighbours = [
-          tile.id - 1,
-          tile.id + 1,
-          tile.id + 12,
-          tile.id + 11,
-          tile.id - 11,
-          tile.id - 10,
-        ]
-      }
-      countRow++
     }
+    if (tile.id < 12) {
+      tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11] //oben
+    } else if (tile.id > 198) {
+      tile.neighbours = [tile.id - 1, tile.id + 1, tile.id - 12, tile.id - 11] //unten
+    } else if (tile.id % 11 === 0) {
+      tile.neighbours = [tile.id - 1, tile.id - 11, tile.id + 11] //rechts
+    } else if (tile.id % 11 === 1) {
+      tile.neighbours = [tile.id + 1, tile.id + 11, tile.id - 11] //links
+    } else {
+      tile.neighbours = [
+        tile.id - 1,
+        tile.id + 1,
+        tile.id + 12 - offset,
+        tile.id + 11,
+        tile.id - 11,
+        tile.id - 10 - offset,
+      ]
+    }
+    countRow++
   }
 }
 
