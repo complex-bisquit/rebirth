@@ -51,17 +51,17 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
     )
     if (curSmallestLine > line) {
       curSmallestLine = line
-      smallID = curPoint.id
+      smallID = curPoint.id - 1
     }
   }
 
   moves.clickTile(smallID)
 
   ctx.fillStyle = "red"
-  ctx.fillRect(middle[smallID - 1].x, middle[smallID - 1].y, 5, 5)
+  ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
   console.log(smallID)
 
-  for (let neighbour of state[smallID - 1].neighbours) {
+  for (let neighbour of state[smallID].neighbours) {
     if (state.type === "W") {
       continue
     }
