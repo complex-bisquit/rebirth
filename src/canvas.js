@@ -59,7 +59,7 @@ canvas.addEventListener(
             `calling handler for x: ${x}, y: ${y}, with bounds x: ${element.x}, y: ${element.y}, width: ${element.width}, height: ${element.height}`,
           )
         }
-        element.handler()
+        element.handler(x, y)
       }
     })
 
