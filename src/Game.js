@@ -50,6 +50,7 @@ export const Game = {
       bag2,
       bag3,
       bag4 = []
+    bag4.length = 36
     bag4.fill("F", 0, 11).fill("E", 12, 24)
     console.log(bag4)
     for (let i = 0; i < 36; i++) {}
