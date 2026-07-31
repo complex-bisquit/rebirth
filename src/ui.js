@@ -52,6 +52,8 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state) {
     console.log(counter)
     console.log(
       curPoint,
+      mouseX,
+      mouseY,
       Math.pow(curPoint.x - mouseX, 2) + Math.pow(curPoint.y - mouseY, 2),
     )
     const line = Math.sqrt(
