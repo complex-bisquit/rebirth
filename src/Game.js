@@ -69,11 +69,10 @@ export const Game = {
     player3.bag.pop()
     player4.bag.pop()
     player4.bag.pop()
-    let handTile1 = bag1.pop()
-    let handTile2 = bag2.pop()
-    let handTile3 = bag3.pop()
-    let handTile4 = bag4.pop()
-    console.log(bag1, bag2, bag3, bag4)
+    let handTile1 = player1.bag.pop()
+    let handTile2 = player2.bag.pop()
+    let handTile3 = player3.bag.pop()
+    let handTile4 = player4.bag.pop()
     for (let i = 0; i < 36; i++) {}
     // W = Wasser
     // D = Dorf
