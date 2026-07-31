@@ -58,7 +58,12 @@ export const Game = {
       .fill("D2", 27, 30)
       .fill("D3", 30, 33)
       .fill("D4", 33, 36)
-    console.log(bag4)
+    bag1 = random.Shuffle(bag4)
+    bag2 = random.Shuffle(bag4)
+    bag3 = random.Shuffle(bag4)
+    bag4 = random.Shuffle(bag4)
+    bag1.pop(0, 1)
+    console.log(bag1, bag2, bag3, bag4)
     for (let i = 0; i < 36; i++) {}
     // W = Wasser
     // D = Dorf
