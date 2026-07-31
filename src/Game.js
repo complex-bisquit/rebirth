@@ -41,6 +41,15 @@ function getNeighbours(board) {
 /** @type {Game} */
 export const Game = {
   setup: ({ random, ctx }) => {
+    let score1 = 0,
+      score2 = 0,
+      score3 = 0,
+      score4 = 0
+    let bag1,
+      bag2,
+      bag3,
+      bag4 = []
+    for (let i = 0; i < 36; i++) {}
     // W = Wasser
     // D = Dorf
     // E = Electricity
