@@ -78,7 +78,7 @@ export const Game = {
     player2.handTile = player2.bag.pop()
     player3.handTile = player3.bag.pop()
     player1.handTile = player4.bag.pop()
-    for (let i = 0; i < 36; i++) {}
+
     // W = Wasser
     // D = Dorf
     // E = Electricity
@@ -138,7 +138,12 @@ WWWFCDPWWWW
     //clicktile fertig schreiben!!!!!!!
     //player 1 player 2 ... etc. machen
     clickTile: function clickTile(state, id, player1, player2) {
-      if (state.G[id].occ != null || state.G[id].type === "W") {
+      if (
+        state.G[id].occ != null ||
+        state.G[id].type === "W" ||
+        state.G[id].type === "C" ||
+        state.G[id].type === "M"
+      ) {
         return INVALID_MOVE
       }
       state.G[id].occ = state.ctx.currentPlayer
