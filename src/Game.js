@@ -138,6 +138,8 @@ WWWFCDPWWWW
     //clicktile fertig schreiben!!!!!!!
     //player 1 player 2 ... etc. machen
     clickTile: function clickTile(state, id, player1, player2) {
+      if (true) {
+      }
       if (
         state.G[id].occ != null ||
         state.G[id].type === "W" ||
