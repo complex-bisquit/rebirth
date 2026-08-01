@@ -53,10 +53,6 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
       curSmallestLine = line
       smallID = curPoint.id - 1
     }
-    if (state[curPoint.id - 1].occ != null) {
-      ctx.fillStyle = "blue"
-      ctx.fillRect(middle[curPoint.id - 1].x, middle[curPoint.id - 1].y, 5, 5)
-    }
   }
 
   moves.clickTile(smallID)
