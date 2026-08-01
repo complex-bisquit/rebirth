@@ -65,6 +65,9 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
     ctx.fillStyle = "white"
     ctx.fillRect(middle[neighbour - 1].x, middle[neighbour - 1].y, 5, 5)
   }
+	if () {
+
+	}
 }
 
 function hexagon(ctx, board, x, y, a, b) {
