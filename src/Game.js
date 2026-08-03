@@ -176,6 +176,11 @@ WWWFCDPWWWW
           state.G.player[state.ctx.currentPlayer].handTile === "D4")
       ) {
       } else if (
+        state.G.board[id].type === "P" &&
+        (state.G.player[state.ctx.currentPlayer].handTile === "E" ||
+          state.G.player[state.ctx.currentPlayer].handTile === "F")
+      ) {
+      } else if (
         state.G.player[state.ctx.currentPlayer].handTile !==
         state.G.board[id].type
       ) {
