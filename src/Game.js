@@ -155,6 +155,9 @@ WWWFCDPWWWW
         return INVALID_MOVE
       }
       state.G.board[id].occ = state.ctx.currentPlayer
+
+      state.G.player[state.ctx.currentPlayer].handTile =
+        state.G.player[state.ctx.currentPlayer].bag.pop()
     },
   },
 
