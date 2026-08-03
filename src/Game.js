@@ -48,9 +48,24 @@ export const Game = {
       bag: [],
       handTile: null,
     }
-    let player2 = player1,
-      player3 = player1,
-      player4 = player1
+
+    const player2 = {
+      score: 0,
+      bag: [],
+      handTile: null,
+    }
+
+    const player3 = {
+      score: 0,
+      bag: [],
+      handTile: null,
+    }
+
+    const player4 = {
+      score: 0,
+      bag: [],
+      handTile: null,
+    }
 
     player1.bag.length = 36 //players im Array speichern
     player1.bag
@@ -78,7 +93,7 @@ export const Game = {
     player1.handTile = player1.bag.pop()
     player2.handTile = player2.bag.pop()
     player3.handTile = player3.bag.pop()
-    player1.handTile = player4.bag.pop()
+    player4.handTile = player4.bag.pop()
 
     let playerRelated = [player1, player2, player3, player4]
 
