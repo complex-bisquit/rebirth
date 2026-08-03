@@ -79,6 +79,8 @@ export const Game = {
     player3.handTile = player3.bag.pop()
     player1.handTile = player4.bag.pop()
 
+    let playerRelated = [player1, player2, player3, player4]
+
     // W = Wasser
     // D = Dorf
     // E = Electricity
@@ -127,8 +129,14 @@ WWWFCDPWWWW
       board.push(Tile)
     }
 
+    let gameState = {
+      board: board,
+      player: playerRelated,
+    }
+
     getNeighbours(board)
-    return board
+
+    return gameState
   },
 
   moves: {
