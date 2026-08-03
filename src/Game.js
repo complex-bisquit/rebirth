@@ -160,7 +160,6 @@ WWWFCDPWWWW
     //playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
     //drawCard(ctx) {},
     //clicktile fertig schreiben!!!!!!!
-    //player 1 player 2 ... etc. machen
     clickTile: function clickTile(state, id) {
       if (
         state.G.board[id].occ != null ||
