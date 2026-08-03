@@ -16,7 +16,7 @@ export function draw(
   let y = 25
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
-  hexagon(ctx, state.G.board, x, y, a, b)
+  hexagon(ctx, state, x, y, a, b)
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
     mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
   })
@@ -63,6 +63,14 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   } else {
     ctx.fillStyle = "white"
   }
+  ctx.textBaseline = "middle"
+  ctx.textAlign = "center"
+  ctx.font = "20px Times New Roman"
+  ctx.fillText(
+    state.G.board[smallID].type,
+    middle[smallID].x,
+    middle[smallID].y,
+  )
   // ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
   console.log(smallID)
 
@@ -72,11 +80,11 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   }
 }
 
-function hexagon(ctx, board, x, y, a, b) {
+function hexagon(ctx, state, x, y, a, b) {
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
       ctx.beginPath()
-      const tile = board[i - 1 + (countRow - 1) * 11]
+      const tile = state.G.board[i - 1 + (countRow - 1) * 11]
 
       if (tile.type === "W") {
         ctx.fillStyle = "blue"
