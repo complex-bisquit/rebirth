@@ -175,7 +175,6 @@ WWWFCDPWWWW
           state.G.player[state.ctx.currentPlayer].handTile === "D3" ||
           state.G.player[state.ctx.currentPlayer].handTile === "D4")
       ) {
-        pass
       } else if (
         state.G.player[state.ctx.currentPlayer].handTile !==
         state.G.board[id].type
@@ -186,7 +185,7 @@ WWWFCDPWWWW
       state.G.board[id].occ = state.ctx.currentPlayer
 
       state.G.player[state.ctx.currentPlayer].handTile =
-        state.G.player[state.ctx.currentPlayer].bag.pop()
+        state.G.player[state.ctx.currentPlayer].bag.shift()
     },
   },
 
