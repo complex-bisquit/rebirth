@@ -57,10 +57,10 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   // ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
   console.log(smallID)
 
-  for (let neighbour of state.G.board[smallID].neighbours) {
-    ctx.fillStyle = "white"
-    ctx.fillRect(middle[neighbour - 1].x, middle[neighbour - 1].y, 5, 5)
-  }
+  //for (let neighbour of state.G.board[smallID].neighbours) {
+  // ctx.fillStyle = "white"
+  //  ctx.fillRect(middle[neighbour - 1].x, middle[neighbour - 1].y, 5, 5)
+  //  }
 }
 
 function hexagon(ctx, state, x, y, a, b) {
@@ -95,7 +95,7 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.fill()
       ctx.stroke()
       if (tile.occ !== null) {
-        ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
+        ctx.fillStyle = state.G.player[tile.occ].colour
         ctx.textBaseline = "middle"
         ctx.textAlign = "center"
         ctx.font = "20px Times New Roman"
