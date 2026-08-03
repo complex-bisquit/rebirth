@@ -16,11 +16,9 @@ export function draw(
   let y = 25
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
-  hexagon(ctx, state.G, x, y, a, b)
-  //ctx.fillStyle = "rgba(255,0,0,0.5)"
-  //ctx.fillRect(x - a, y, 498, 9 * 2 * b + 10 * 4 * b) //9 für even, 10 für uneven
+  hexagon(ctx, state.G.board, x, y, a, b)
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
-    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state.G, moves)
+    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state.G.board, moves)
   })
 }
 

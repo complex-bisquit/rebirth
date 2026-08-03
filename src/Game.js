@@ -145,18 +145,16 @@ WWWFCDPWWWW
     //drawCard(ctx) {},
     //clicktile fertig schreiben!!!!!!!
     //player 1 player 2 ... etc. machen
-    clickTile: function clickTile(state, id, player1, player2) {
-      if (true) {
-      }
+    clickTile: function clickTile(state, id) {
       if (
-        state.G[id].occ != null ||
-        state.G[id].type === "W" ||
-        state.G[id].type === "C" ||
-        state.G[id].type === "M"
+        state.G.board[id].occ != null ||
+        state.G.board[id].type === "W" ||
+        state.G.board[id].type === "C" ||
+        state.G.board[id].type === "M"
       ) {
         return INVALID_MOVE
       }
-      state.G[id].occ = state.ctx.currentPlayer
+      state.G.board[id].occ = state.ctx.currentPlayer
     },
   },
 
