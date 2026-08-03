@@ -16,8 +16,16 @@ export function draw(
   let y = 25
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
-  const middle = []
+  hexagon(ctx, state, x, y, a, b)
+  onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
+    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
+  })
+}
 
+function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
+  let curSmallestLine = Number.MAX_SAFE_INTEGER
+  let smallID = 0
+  const middle = []
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
       middle.push({
@@ -35,16 +43,6 @@ export function draw(
       x -= 21 * a
     }
   }
-
-  hexagon(ctx, state, x, y, a, b)
-  onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
-    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves, middle)
-  })
-}
-
-function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves, middle) {
-  let curSmallestLine = Number.MAX_SAFE_INTEGER
-  let smallID = 0
   for (let curPoint of middle) {
     const line = Math.sqrt(
       Math.pow(curPoint.x - mouseX, 2) + Math.pow(curPoint.y - mouseY, 2),
@@ -56,7 +54,6 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves, middle) {
   }
 
   moves.clickTile(smallID)
-  ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
   ctx.textBaseline = "middle"
   ctx.textAlign = "center"
   ctx.font = "20px Times New Roman"
@@ -77,17 +74,9 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves, middle) {
 function hexagon(ctx, state, x, y, a, b) {
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
-      const tile = state.G.board[i - 1 + (countRow - 1) * 11]
-      ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
-      ctx.textBaseline = "middle"
-      ctx.textAlign = "center"
-      ctx.font = "20px Times New Roman"
-      ctx.fillText(
-        state.G.board[tile.id].type,
-        middle[tile.id].x,
-        middle[tile.id].y,
-      )
       ctx.beginPath()
+      const tile = state.G.board[i - 1 + (countRow - 1) * 11]
+
       if (tile.type === "W") {
         ctx.fillStyle = "blue"
       } else if (tile.type === "D") {
@@ -114,8 +103,8 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.fill()
       ctx.stroke()
 
-      ctx.fillStyle = "black"
-      ctx.fillRect(x - 1, y + 2 * b - 1, 2, 2)
+      //ctx.fillStyle = "black"
+      // ctx.fillRect(x - 1, y + 2 * b - 1, 2, 2)
       x += 2 * a
     }
     if ((countRow & 1) === 0 && countRow !== 1) {
