@@ -18,7 +18,7 @@ export function draw(
   const b = y / 2
   hexagon(ctx, state.G.board, x, y, a, b)
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
-    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state.G, moves)
+    mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
   })
 }
 
@@ -31,7 +31,7 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
       middle.push({
         x: x - 1,
         y: y + 2 * b - 1,
-        id: state.board[i - 1 + (countRow - 1) * 11].id,
+        id: state.G.board[i - 1 + (countRow - 1) * 11].id,
       })
       x += 2 * a
     }
@@ -56,12 +56,17 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   moves.clickTile(smallID)
   if (state.ctx.currentPlayer === "0") {
     ctx.fillStyle = "red"
+  } else if (state.ctx.currentPlayer === "1") {
+    ctx.fillStyle = "blue"
+  } else if (state.ctx.currentPlayer === "2") {
+    ctx.fillStyle = "orange"
+  } else {
+    ctx.fillStyle = "white"
   }
-  //ctx.fillStyle = "red"
-  ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
+  // ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
   console.log(smallID)
 
-  for (let neighbour of state.board[smallID].neighbours) {
+  for (let neighbour of state.G.board[smallID].neighbours) {
     ctx.fillStyle = "white"
     ctx.fillRect(middle[neighbour - 1].x, middle[neighbour - 1].y, 5, 5)
   }
