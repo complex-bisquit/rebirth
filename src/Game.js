@@ -165,20 +165,23 @@ WWWFCDPWWWW
         state.G.board[id].occ != null ||
         state.G.board[id].type === "W" ||
         state.G.board[id].type === "C" ||
-        state.G.board[id].type === "M" ||
+        state.G.board[id].type === "M"
       ) {
         return INVALID_MOVE
-      } else if ((state.G.board[id].type === "D") && (state.G.player[state.ctx.currentPlayer].handTile === D1 ||
-        state.G.player[state.ctx.currentPlayer].handTile === D2 ||
-        state.G.player[state.ctx.currentPlayer].handTile === D3 ||
-        state.G.player[state.ctx.currentPlayer].handTile === D4 ||
-       ) {
-        continue
-      } else if (state.G.player[state.ctx.currentPlayer].handTile !==
-          state.G.board[id].type) {
-            return INVALID_MOVE
-          }
-
+      } else if (
+        state.G.board[id].type === "D" &&
+        (state.G.player[state.ctx.currentPlayer].handTile === "D1" ||
+          state.G.player[state.ctx.currentPlayer].handTile === "D2" ||
+          state.G.player[state.ctx.currentPlayer].handTile === "D3" ||
+          state.G.player[state.ctx.currentPlayer].handTile === "D4")
+      ) {
+        pass
+      } else if (
+        state.G.player[state.ctx.currentPlayer].handTile !==
+        state.G.board[id].type
+      ) {
+        return INVALID_MOVE
+      }
 
       state.G.board[id].occ = state.ctx.currentPlayer
 
