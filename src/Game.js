@@ -47,24 +47,28 @@ export const Game = {
       score: 0,
       bag: [],
       handTile: null,
+      colour: "red",
     }
 
     const player2 = {
       score: 0,
       bag: [],
       handTile: null,
+      colour: "blue",
     }
 
     const player3 = {
       score: 0,
       bag: [],
       handTile: null,
+      colour: "orange",
     }
 
     const player4 = {
       score: 0,
       bag: [],
       handTile: null,
+      colour: "white",
     }
 
     player1.bag.length = 36 //players im Array speichern

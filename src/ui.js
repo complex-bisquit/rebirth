@@ -54,15 +54,7 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   }
 
   moves.clickTile(smallID)
-  if (state.ctx.currentPlayer === "0") {
-    ctx.fillStyle = "red"
-  } else if (state.ctx.currentPlayer === "1") {
-    ctx.fillStyle = "blue"
-  } else if (state.ctx.currentPlayer === "2") {
-    ctx.fillStyle = "orange"
-  } else {
-    ctx.fillStyle = "white"
-  }
+  ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
   ctx.textBaseline = "middle"
   ctx.textAlign = "center"
   ctx.font = "20px Times New Roman"
