@@ -54,6 +54,7 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   }
 
   moves.clickTile(smallID)
+  ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
   ctx.textBaseline = "middle"
   ctx.textAlign = "center"
   ctx.font = "20px Times New Roman"
@@ -102,9 +103,10 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.closePath()
       ctx.fill()
       ctx.stroke()
-
-      //ctx.fillStyle = "black"
-      // ctx.fillRect(x - 1, y + 2 * b - 1, 2, 2)
+      if (tile.occ !== null) {
+        ctx.fillStyle = "black"
+        ctx.fillRect(x - 1, y + 2 * b - 1, 2, 2)
+      }
       x += 2 * a
     }
     if ((countRow & 1) === 0 && countRow !== 1) {
