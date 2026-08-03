@@ -21,7 +21,7 @@ export function draw(
     mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
   })
 }
-
+function drawHandTile(state, ctx) {}
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
   let smallID = 0
