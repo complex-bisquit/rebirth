@@ -77,7 +77,15 @@ function hexagon(ctx, state, x, y, a, b) {
     for (let i = 1; i < 12; i++) {
       ctx.beginPath()
       const tile = state.G.board[i - 1 + (countRow - 1) * 11]
-
+      ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
+      ctx.textBaseline = "middle"
+      ctx.textAlign = "center"
+      ctx.font = "20px Times New Roman"
+      ctx.fillText(
+        state.G.board[smallID].type,
+        middle[smallID].x,
+        middle[smallID].y,
+      )
       if (tile.type === "W") {
         ctx.fillStyle = "blue"
       } else if (tile.type === "D") {
