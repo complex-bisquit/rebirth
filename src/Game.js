@@ -141,6 +141,9 @@ WWWFCDPWWWW
         //2 - occupied by player 3. 3 - occupied by player 4
         row: rowNum,
       }
+      if (kategorie === "P") {
+        Tile.usedItem = null
+      }
       id++
       board.push(Tile)
     }
@@ -161,6 +164,7 @@ WWWFCDPWWWW
     //drawCard(ctx) {},
     //clicktile fertig schreiben!!!!!!!
     clickTile: function clickTile(state, id) {
+      // HELL 2nd edition
       if (
         state.G.board[id].occ != null ||
         state.G.board[id].type === "W" ||
@@ -180,6 +184,8 @@ WWWFCDPWWWW
         (state.G.player[state.ctx.currentPlayer].handTile === "E" ||
           state.G.player[state.ctx.currentPlayer].handTile === "F")
       ) {
+        state.G.board[id].usedItem =
+          state.G.player[state.ctx.currentPlayer].handTile
       } else if (
         state.G.player[state.ctx.currentPlayer].handTile !==
         state.G.board[id].type

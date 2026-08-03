@@ -95,8 +95,8 @@ function hexagon(ctx, board, x, y, a, b) {
       ctx.lineTo(x + a, y + b)
       ctx.closePath()
       ctx.fill()
-      ctx.fillStyle = "black"
-      ctx.fillRect(x - 1, y + 2 * b - 1, 2, 2)
+      //ctx.fillStyle = "black"
+      // ctx.fillRect(x - 1, y + 2 * b - 1, 2, 2)
       x += 2 * a
     }
     if ((countRow & 1) === 0 && countRow !== 1) {
