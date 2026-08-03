@@ -48,9 +48,10 @@ export const Game = {
       bag: [],
       handTile: null,
     }
-    const player2 = player1,
+    let player2 = player1,
       player3 = player1,
       player4 = player1
+
     player1.bag.length = 36 //players im Array speichern
     player1.bag
       .fill("F", 0, 12)
