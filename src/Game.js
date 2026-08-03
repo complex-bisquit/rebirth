@@ -166,7 +166,9 @@ WWWFCDPWWWW
         state.G.board[id].occ != null ||
         state.G.board[id].type === "W" ||
         state.G.board[id].type === "C" ||
-        state.G.board[id].type === "M"
+        state.G.board[id].type === "M" ||
+        state.G.player[state.ctx.currentPlayer].handTile !==
+          state.G.board[id].type
       ) {
         return INVALID_MOVE
       }
