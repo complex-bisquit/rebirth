@@ -3,11 +3,10 @@ import { TurnOrder } from "boardgame.io/core"
 import { INVALID_MOVE } from "boardgame.io/core"
 function searchScore(state, curID) {
   if (
-    state.G.board[curID].type !== "F" ||
-    state.G.board[curID].type !== "E" ||
-    state.G.board[curID].type !== "P"
+    state.G.board[curID].type === "F" ||
+    state.G.board[curID].type === "E" ||
+    state.G.board[curID].type === "P"
   ) {
-  } else {
     let curCurID = state.G.board[curID]
     let unvisited = [curCurID]
     let visited = []
@@ -24,9 +23,17 @@ function searchScore(state, curID) {
         visited.push(curCurID)
         unvisited.shift(curCurID)
         curCurID = unvisited[0]
+        console.log("arrays", unvisited, visited)
       }
     }
     state.G.player[state.ctx.currentPlayer].score += visited.length
+    console.log(
+      "idk how to name it",
+      state.G.player[state.ctx.currentPlayer].score,
+      unvisited,
+      visited,
+    )
+  } else {
   }
 }
 function getNeighbours(board) {
@@ -235,6 +242,7 @@ WWWFCDPWWWW
 
       state.G.player[state.ctx.currentPlayer].handTile =
         state.G.player[state.ctx.currentPlayer].bag.shift()
+      console.log("MOIN")
       searchScore(state, id)
     },
   },
