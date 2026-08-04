@@ -72,6 +72,7 @@ function drawHandTile(state, ctx) {
 
   ctx.font = "30px Times New Roman"
 }
+
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
   let smallID = 0
@@ -104,6 +105,7 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   }
 
   moves.clickTile(smallID)
+
   // ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
   console.log(smallID)
 

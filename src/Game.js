@@ -1,7 +1,34 @@
 /** @import { Game, Move } from "boardgame.io" */
 import { TurnOrder } from "boardgame.io/core"
 import { INVALID_MOVE } from "boardgame.io/core"
-
+function searchScore(state, curID) {
+  if (
+    state.G.board[curID].type !== "F" ||
+    state.G.board[curID].type !== "E" ||
+    state.G.board[curID].type !== "P"
+  ) {
+  } else {
+    let curCurID = state.G.board[curID]
+    let unvisited = [curCurID]
+    let visited = []
+    while (unvisited.length !== 0) {
+      for (let tile of curCurID.neighbours) {
+        if (visited.includes(curCurID)) {
+          continue
+        }
+        if (tile.type === "P") {
+        } //IGNORE
+        if (tile.type === curCurID.type && tile.occ === curCurID.occ) {
+          unvisited.push(tile)
+        }
+        visited.push(curCurID)
+        unvisited.shift(curCurID)
+        curCurID = unvisited[0]
+      }
+    }
+    state.G.player[state.ctx.currentPlayer].score += visited.length
+  }
+}
 function getNeighbours(board) {
   let offset = 0 // HELL
   for (const tile of board) {
@@ -208,6 +235,7 @@ WWWFCDPWWWW
 
       state.G.player[state.ctx.currentPlayer].handTile =
         state.G.player[state.ctx.currentPlayer].bag.shift()
+      searchScore(state, id)
     },
   },
 
