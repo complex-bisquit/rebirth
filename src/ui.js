@@ -106,9 +106,6 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
 
   moves.clickTile(smallID)
 
-  // ctx.fillRect(middle[smallID].x, middle[smallID].y, 5, 5)
-  console.log(smallID)
-
   //for (let neighbour of state.G.board[smallID].neighbours) {
   // ctx.fillStyle = "white"
   //  ctx.fillRect(middle[neighbour - 1].x, middle[neighbour - 1].y, 5, 5)
