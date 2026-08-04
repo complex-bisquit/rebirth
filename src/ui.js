@@ -17,12 +17,17 @@ export function draw(
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
   hexagon(ctx, state, x, y, a, b)
-  //drawHandTile(state, ctx)
+  drawHandTile(state, ctx)
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
     mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
   })
 }
 function drawHandTile(state, ctx) {
+  console.log(
+    state.G.player[state.ctx.currentPlayer],
+    state.G.player,
+    state.ctx.currentPlayer,
+  )
   ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
   ctx.strokeStyle = "black"
   ctx.font = "30px Times New Roman"
@@ -37,7 +42,7 @@ function drawHandTile(state, ctx) {
     1150,
     560,
   )
-  ctx.fillText("player: " + ++state.ctx.currentPlayer, 1150, 60)
+  ctx.fillText("player: " + (+state.ctx.currentPlayer + 1), 1150, 60)
   ctx.fillStyle = "black"
   ctx.fillText("score: ", 1150, 170)
   ctx.font = "20px Times New Roman"
