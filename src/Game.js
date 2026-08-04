@@ -22,7 +22,7 @@ function searchScore(state, curID) {
           }
         } else if (curCurID.type === "P") {
           if (tile.type === curCurID.usedItem && tile.occ === curCurID.occ) {
-            unvisited.push(tile)
+            unvisited.push(tile) // FIX THIS THING TODO
           }
         } else if (tile.type === curCurID.type && tile.occ === curCurID.occ) {
           unvisited.push(tile)
