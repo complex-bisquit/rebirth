@@ -133,6 +133,7 @@ function hexagon(ctx, state, x, y, a, b) {
       } else {
         ctx.fillStyle = "yellow"
       }
+
       ctx.strokeStyle = "rgb(22, 19, 19)"
       ctx.moveTo(x, y)
       ctx.lineTo(x - a, y + b)
@@ -143,6 +144,7 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.closePath()
       ctx.fill()
       ctx.stroke()
+
       if (tile.occ !== null) {
         ctx.fillStyle = state.G.player[tile.occ].colour
         ctx.textBaseline = "middle"
