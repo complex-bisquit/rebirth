@@ -48,6 +48,7 @@ export const Game = {
       bag: [],
       handTile: null,
       colour: "red",
+      itemSave: [],
     }
 
     const player2 = {
@@ -55,6 +56,7 @@ export const Game = {
       bag: [],
       handTile: null,
       colour: "blue",
+      itemSave: [],
     }
 
     const player3 = {
@@ -62,6 +64,7 @@ export const Game = {
       bag: [],
       handTile: null,
       colour: "orange",
+      itemSave: [],
     }
 
     const player4 = {
@@ -69,6 +72,7 @@ export const Game = {
       bag: [],
       handTile: null,
       colour: "white",
+      itemSave: [],
     }
 
     player1.bag.length = 36 //players im Array speichern
@@ -85,14 +89,17 @@ export const Game = {
     player3.bag = random.Shuffle(player1.bag)
     player4.bag = random.Shuffle(player1.bag)
 
-    player1.bag.pop() //delete 2 elements
-    player1.bag.pop()
-    player2.bag.pop()
-    player2.bag.pop()
-    player3.bag.pop()
-    player3.bag.pop()
-    player4.bag.pop()
-    player4.bag.pop()
+    player1.itemSave.push(player1.bag.pop()) //delete 2 elements
+    player1.itemSave.push(player1.bag.pop())
+
+    player2.itemSave.push(player2.bag.pop()) //delete 2 elements
+    player2.itemSave.push(player2.bag.pop())
+
+    player3.itemSave.push(player3.bag.pop()) //delete 2 elements
+    player3.itemSave.push(player3.bag.pop())
+
+    player4.itemSave.push(player4.bag.pop()) //delete 2 elements
+    player4.itemSave.push(player4.bag.pop())
 
     player1.handTile = player1.bag.pop()
     player2.handTile = player2.bag.pop()

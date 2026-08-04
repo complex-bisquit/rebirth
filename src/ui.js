@@ -42,6 +42,7 @@ function drawHandTile(state, ctx) {
     1150,
     560,
   )
+  ctx.fillText(state.G.player[state.ctx.currentPlayer].itemSave, 1150, 660)
   ctx.fillText(
     "player: " + (Number.parseInt(state.ctx.currentPlayer) + 1),
     1150,
