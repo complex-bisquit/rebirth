@@ -17,16 +17,22 @@ export function draw(
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
   hexagon(ctx, state, x, y, a, b)
-  drawHandTile(12, ctx)
+  drawHandTile(state, ctx)
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
     mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
   })
 }
 function drawHandTile(state, ctx) {
+  ctx.fillStyle = "blue"
+  ctx.strokeStyle = "black"
+  ctx.font = "20px Times New Roman"
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
   ctx.strokeRect(1050, 25, 200, 75)
   ctx.strokeRect(1050, 125, 200, 375)
   ctx.strokeRect(1050, 525, 200, 75)
   ctx.strokeRect(1050, 625, 200, 75)
+  ctx.fillText("player: " + state.ctx.currentPlayer, 1150, 60)
 }
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
