@@ -21,8 +21,8 @@ function searchScore(state, curID) {
           unvisited.push(tile)
         }
         visited.push(curCurID)
-        unvisited.shift(curCurID)
-        curCurID = unvisited[0]
+        curCurID = unvisited[1]
+        unvisited.shift()
         console.log("arrays", unvisited, visited)
       }
     }
