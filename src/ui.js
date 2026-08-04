@@ -42,7 +42,11 @@ function drawHandTile(state, ctx) {
     1150,
     560,
   )
-  ctx.fillText("player: " + (+state.ctx.currentPlayer + 1), 1150, 60)
+  ctx.fillText(
+    "player: " + (Number.parseInt(state.ctx.currentPlayer) + 1),
+    1150,
+    60,
+  )
   ctx.fillStyle = "black"
   ctx.fillText("score: ", 1150, 170)
   ctx.font = "20px Times New Roman"
