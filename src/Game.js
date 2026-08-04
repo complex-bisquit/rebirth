@@ -20,6 +20,10 @@ function searchScore(state, curID) {
           if (tile.usedItem === curCurID.type && tile.occ === curCurID.occ) {
             unvisited.push(tile)
           }
+        } else if (curCurID.type === "P") {
+          if (tile.type === curCurID.usedItem && tile.occ === curCurID.occ) {
+            unvisited.push(tile)
+          }
         } else if (tile.type === curCurID.type && tile.occ === curCurID.occ) {
           unvisited.push(tile)
         }
