@@ -23,7 +23,10 @@ export function draw(
   })
 }
 function drawHandTile(state, ctx) {
-  ctx.fillRect(1200, 50, 200, 50)
+  ctx.strokeRect(1050, 25, 200, 50)
+  ctx.strokeRect(1050, 100, 200, 250)
+  ctx.strokeRect(1050, 375, 200, 50)
+  ctx.strokeRect(1050, 450, 200, 50)
 }
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
