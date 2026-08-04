@@ -33,7 +33,11 @@ function drawHandTile(state, ctx) {
   ctx.strokeRect(1050, 525, 200, 75)
   ctx.strokeRect(1050, 625, 200, 75)
   ctx.fillText("player: " + ++state.ctx.currentPlayer, 1150, 60)
-  ctx.fillText("score: " + "\n" + state.G.player[0].score, 1150, 170)
+  ctx.fillText("score: ", 1150, 170)
+  ctx.fillText("player 1: " + state.G.player[0].score, 1150, 200)
+  ctx.fillText("player 2: " + state.G.player[1].score, 1150, 230)
+  ctx.fillText("player 3: " + state.G.player[2].score, 1150, 260)
+  ctx.fillText("player 4: " + state.G.player[3].score, 1150, 290)
 }
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
