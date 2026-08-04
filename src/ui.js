@@ -17,11 +17,14 @@ export function draw(
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
   hexagon(ctx, state, x, y, a, b)
+  drawHandTile(12, ctx)
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
     mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
   })
 }
-function drawHandTile(state, ctx) {}
+function drawHandTile(state, ctx) {
+  ctx.fillRect(1200, 50, 200, 50)
+}
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
   let smallID = 0
