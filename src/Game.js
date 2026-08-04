@@ -17,8 +17,10 @@ function searchScore(state, curID) {
           continue
         }
         if (tile.type === "P") {
-        } //NOT IGNORE
-        if (tile.type === curCurID.type && tile.occ === curCurID.occ) {
+          if (tile.usedItem === curCurID.type && tile.occ === curCurID.occ) {
+            unvisited.push(tile)
+          }
+        } else if (tile.type === curCurID.type && tile.occ === curCurID.occ) {
           unvisited.push(tile)
         }
         console.log("arrays", unvisited, visited)
