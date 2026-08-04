@@ -27,8 +27,9 @@ function searchScore(state, curID) {
         } else if (tile.type === curCurID.type && tile.occ === curCurID.occ) {
           unvisited.push(tile)
         }
-        console.log("arrays", unvisited, visited)
+        //console.log("arrays", unvisited, visited)
       }
+      console.log("arrays", unvisited, visited)
       visited.push(curCurID)
       curCurID = unvisited[1]
       unvisited.shift()
