@@ -23,7 +23,7 @@ export function draw(
   })
 }
 function drawHandTile(state, ctx) {
-  ctx.fillStyle = "blue"
+  ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
   ctx.strokeStyle = "black"
   ctx.font = "20px Times New Roman"
   ctx.textAlign = "center"
@@ -32,7 +32,7 @@ function drawHandTile(state, ctx) {
   ctx.strokeRect(1050, 125, 200, 375)
   ctx.strokeRect(1050, 525, 200, 75)
   ctx.strokeRect(1050, 625, 200, 75)
-  ctx.fillText("player: " + state.ctx.currentPlayer, 1150, 60)
+  ctx.fillText("player: " + (+state.ctx.currentPlayer + 1), 1150, 60)
 }
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
   let curSmallestLine = Number.MAX_SAFE_INTEGER
