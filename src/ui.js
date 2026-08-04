@@ -32,6 +32,11 @@ function drawHandTile(state, ctx) {
   ctx.strokeRect(1050, 125, 200, 375)
   ctx.strokeRect(1050, 525, 200, 75)
   ctx.strokeRect(1050, 625, 200, 75)
+  ctx.fillText(
+    "hand: " + state.G.player[state.ctx.currentPlayer].handTile,
+    1150,
+    560,
+  )
   ctx.fillText("player: " + ++state.ctx.currentPlayer, 1150, 60)
   ctx.fillStyle = "black"
   ctx.fillText("score: ", 1150, 170)
