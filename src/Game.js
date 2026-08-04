@@ -30,9 +30,10 @@ function searchScore(state, curID) {
         //console.log("arrays", unvisited, visited)
       }
       console.log("arrays", unvisited, visited)
-      visited.push(curCurID)
+      console.log(visited.push(curCurID))
       curCurID = unvisited[1]
-      unvisited.shift()
+      console.log(curCurID)
+      console.log("", unvisited.shift())
     }
     state.G.player[state.ctx.currentPlayer].score += visited.length
     console.log(
