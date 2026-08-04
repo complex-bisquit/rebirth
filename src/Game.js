@@ -11,20 +11,21 @@ function searchScore(state, curID) {
     let unvisited = [curCurID]
     let visited = []
     while (unvisited.length !== 0) {
-      for (let tile of curCurID.neighbours) {
-        if (visited.includes(curCurID)) {
+      for (let tileID of curCurID.neighbours) {
+        const tile = state.G.board[tileID - 1]
+        if (visited.includes(tile)) {
           continue
         }
         if (tile.type === "P") {
-        } //IGNORE
+        } //NOT IGNORE
         if (tile.type === curCurID.type && tile.occ === curCurID.occ) {
           unvisited.push(tile)
         }
-        visited.push(curCurID)
-        curCurID = unvisited[1]
-        unvisited.shift()
         console.log("arrays", unvisited, visited)
       }
+      visited.push(curCurID)
+      curCurID = unvisited[1]
+      unvisited.shift()
     }
     state.G.player[state.ctx.currentPlayer].score += visited.length
     console.log(
