@@ -287,6 +287,7 @@ WWWFCDPWWWW
           bestPlayer.id = i
         }
       }
+      console.log("BEST ONE: ", bestPlayer)
       return bestPlayer
     }
     return null
