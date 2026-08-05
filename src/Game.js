@@ -94,7 +94,7 @@ export const Game = {
         colour: colours[i],
         itemSave: [],
       }
-      player.bag.length = 4
+      player.bag.length = 36
       player.bag
         .fill("F", 0, 12)
         .fill("E", 12, 24)
