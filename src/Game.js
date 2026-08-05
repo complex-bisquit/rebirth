@@ -31,6 +31,30 @@ function searchScore(state, curID) {
     state.G.player[state.ctx.currentPlayer].score += visited.length
   }
   if (state.G.board[curID].type === "D") {
+    let curCurID = state.G.board[curID]
+    let unvisited = [curCurID]
+    let visited = []
+    while (unvisited.length !== 0) {
+      for (let tileID of curCurID.neighbours) {
+        const tile = state.G.board[tileID - 1]
+        if (visited.includes(tile) || unvisited.includes(tile)) {
+          continue
+        }
+        if (tile.type === curCurID.type) {
+          unvisited.push(tile)
+        }
+      }
+      visited.push(curCurID)
+      curCurID = unvisited[1]
+      unvisited.shift()
+    }
+    let mostInfluence = 0
+    let justInfluence = 0
+    for (let goodTile of visited) {
+      if (goodTile.occ === null) {
+        break
+      }
+    }
   }
 }
 
