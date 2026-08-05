@@ -283,10 +283,12 @@ WWWFCDPWWWW
       }
       for (let i = 0; i < 4; i++) {
         if (player[i].score > bestPlayer.bigScore) {
-          bigScore[0] = player[i].score
-          bigScore[1] = player[i].id
+          bestPlayer.bigScore = player[i].score
+          bestPlayer.id = i
         }
       }
+      return bestPlayer
     }
+    return null
   },
 }
