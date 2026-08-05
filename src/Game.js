@@ -23,24 +23,17 @@ function searchScore(state, curID) {
         if (tileType === curCurType && tile.occ === curCurID.occ) {
           unvisited.push(tile)
         }
-        //console.log("arrays", unvisited, visited)
       }
-      console.log("arrays", unvisited, visited)
-      console.log(visited.push(curCurID))
+      visited.push(curCurID)
       curCurID = unvisited[1]
-      console.log(curCurID)
-      console.log("", unvisited.shift())
+      unvisited.shift()
     }
     state.G.player[state.ctx.currentPlayer].score += visited.length
-    console.log(
-      "idk how to name it",
-      state.G.player[state.ctx.currentPlayer].score,
-      unvisited,
-      visited,
-    )
-  } else {
+  }
+  if (state.G.board[curID].type === "D") {
   }
 }
+
 function getNeighbours(board) {
   let offset = 0 // HELL
   for (const tile of board) {
@@ -192,6 +185,8 @@ WWWFCDPWWWW
           state.G.player[state.ctx.currentPlayer].handTile === "D3" ||
           state.G.player[state.ctx.currentPlayer].handTile === "D4")
       ) {
+        state.G.board[id].influence =
+          state.G.player[state.ctx.currentPlayer].handTile
       } else if (
         state.G.board[id].type === "P" &&
         (state.G.player[state.ctx.currentPlayer].handTile === "E" ||
