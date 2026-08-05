@@ -66,20 +66,14 @@ function drawHandTile(state, ctx) {
   ctx.fillStyle = "black"
   ctx.fillText("score: ", 1150, 170)
   ctx.font = "20px Times New Roman"
-
-  ctx.fillStyle = "red"
-  ctx.fillText("player 1: " + state.G.player[0].score, 1150, 200)
-
-  ctx.fillStyle = "blue"
-  ctx.fillText("player 2: " + state.G.player[1].score, 1150, 230)
-
-  ctx.fillStyle = "orange"
-  ctx.fillText("player 3: " + state.G.player[2].score, 1150, 260)
-
-  ctx.fillStyle = "black"
-  ctx.fillText("player 4: " + state.G.player[3].score, 1150, 290)
-
-  ctx.font = "30px Times New Roman"
+  for (let i = 0; i < state.ctx.numPlayers; i++) {
+    ctx.fillStyle = state.G.player[i].colour
+    ctx.fillText(
+      "player" + (i + 1) + ": " + state.G.player[i].score,
+      1150,
+      200 + 30 * i,
+    )
+  }
 }
 
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
