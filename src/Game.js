@@ -52,6 +52,7 @@ function searchScore(state, curID) {
     let justInfluence = 0
     for (let goodTile of visited) {
       if (goodTile.occ === null) {
+        //MAKE THIS THING WORK
         break
       }
     }
@@ -111,7 +112,7 @@ export const Game = {
         colour: colours[i],
         itemSave: [],
       }
-      player.bag.length = 36
+      player.bag.length = 4
       player.bag
         .fill("F", 0, 12)
         .fill("E", 12, 24)
