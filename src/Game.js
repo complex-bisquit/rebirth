@@ -17,16 +17,10 @@ function searchScore(state, curID) {
           continue
         }
         const tileType = tile.type === "P" ? tile.usedItem : tile.type
-        const curCurType
-        if (tile.type === "P") {
-          if (tile.usedItem === curCurID.type && tile.occ === curCurID.occ) {
-            unvisited.push(tile)
-          }
-        } else if (curCurID.type === "P") {
-          if (tile.type === curCurID.usedItem && tile.occ === curCurID.occ) {
-            unvisited.push(tile) // FIX THIS THING TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          }
-        } else if (tile.type === curCurID.type && tile.occ === curCurID.occ) {
+        const curCurType =
+          curCurID.type === "P" ? curCurID.usedItem : curCurID.type
+
+        if (tileType === curCurType && tile.occ === curCurID.occ) {
           unvisited.push(tile)
         }
         //console.log("arrays", unvisited, visited)
