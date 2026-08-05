@@ -145,12 +145,13 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.fill()
       ctx.stroke()
 
+      const plainsCheck = tile.type === "P" ? tile.useditem : tile.type
       if (tile.occ !== null) {
         ctx.fillStyle = state.G.player[tile.occ].colour
         ctx.textBaseline = "middle"
         ctx.textAlign = "center"
         ctx.font = "20px Times New Roman"
-        ctx.fillText(tile.type, x - 1, y + 2 * b - 1)
+        ctx.fillText(plainsCheck, x - 1, y + 2 * b - 1)
       }
       x += 2 * a
     }
