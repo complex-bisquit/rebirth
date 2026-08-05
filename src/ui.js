@@ -21,6 +21,9 @@ export function draw(
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
     mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
   })
+  if (state.ctx.gameover) {
+    ctx.fillStyle
+  }
 }
 function drawHandTile(state, ctx) {
   console.log(
