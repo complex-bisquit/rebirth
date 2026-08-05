@@ -21,8 +21,14 @@ export function draw(
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
     mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves)
   })
+
   if (state.ctx.gameover) {
-    ctx.fillStyle
+    const bestPlayer = state.ctx.gameover.bestPlayer.id
+    ctx.fillStyle = state.G.player[bestPlayer].colour
+    ctx.font = "30px Times New Roman"
+    ctx.textAlign = "center"
+    ctx.textBaseline = "middle"
+    ctx.fillText("WINNER: " + bestPlayer, 1150, 340)
   }
 }
 function drawHandTile(state, ctx) {

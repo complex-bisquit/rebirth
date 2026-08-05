@@ -114,7 +114,7 @@ export const Game = {
       itemSave: [],
     }
 
-    player1.bag.length = 36 //players im Array speichern
+    player1.bag.length = 4
     player1.bag
       .fill("F", 0, 12)
       .fill("E", 12, 24)
