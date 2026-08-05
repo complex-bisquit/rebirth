@@ -32,12 +32,6 @@ export function draw(
   }
 }
 function drawHandTile(state, ctx) {
-  console.log(
-    state.G.player[state.ctx.currentPlayer],
-    state.G.player,
-    state.ctx.currentPlayer,
-  )
-
   ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
   ctx.strokeStyle = "black"
   ctx.font = "30px Times New Roman"
@@ -48,12 +42,12 @@ function drawHandTile(state, ctx) {
   ctx.strokeRect(1050, 125, 200, 375)
   ctx.strokeRect(1050, 525, 200, 75)
   ctx.strokeRect(1050, 625, 200, 75)
-  const dorfCheck = tyepeofstate.G.player[state.ctx.currentPlayer].handTile
-  ctx.fillText(
-    "hand: " + state.G.player[state.ctx.currentPlayer].handTile,
-    1150,
-    560,
-  )
+
+  const dorfCheck =
+    typeof state.G.player[state.ctx.currentPlayer].handTile === "number"
+      ? "D" + state.G.player[state.ctx.currentPlayer].handTile
+      : state.G.player[state.ctx.currentPlayer].handTile
+  ctx.fillText("hand: " + dorfCheck, 1150, 560)
 
   ctx.fillText(state.G.player[state.ctx.currentPlayer].itemSave, 1150, 660)
 
