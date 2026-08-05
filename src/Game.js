@@ -113,17 +113,26 @@ export const Game = {
       colour: "white",
       itemSave: [],
     }
+    const colours = ["red", "blue", "orange", "white"]
+    let playerRelated = []
 
-    player1.bag.length = 36
-    player1.bag
-      .fill("F", 0, 12)
-      .fill("E", 12, 24)
-      .fill("D1", 24, 27)
-      .fill("D2", 27, 30)
-      .fill("D3", 30, 33)
-      .fill("D4", 33, 36)
-    let playerRelated = [player1, player2, player3, player4]
     for (let i = 0; i < state.ctx.numPlayers; i++) {
+      const player = {
+        score: 0,
+        bag: [],
+        handTile: null,
+        ID: i,
+        colour: colours[i],
+        itemSave: [],
+      }
+      player.bag.length = 36
+      player.bag
+        .fill("F", 0, 12)
+        .fill("E", 12, 24)
+        .fill("D1", 24, 27)
+        .fill("D2", 27, 30)
+        .fill("D3", 30, 33)
+        .fill("D4", 33, 36)
       playerRelated[i].bag = random.Shuffle(player1.bag)
       playerRelated[i].itemSave.push(playerRelated[i].bag.pop())
       playerRelated[i].itemSave.push(playerRelated[i].bag.pop())
