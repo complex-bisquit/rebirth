@@ -277,6 +277,12 @@ WWWFCDPWWWW
       player[2].bag.length === 0 &&
       player[3].bag.length === 0
     ) {
+      let bigScore = [0]
+      for (let i = 0; i < 4; i++) {
+        if (player[i].score > bigScore[0]) {
+          bigScore = player[i].score
+        }
+      }
     }
   },
 }
