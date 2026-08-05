@@ -48,7 +48,7 @@ function drawHandTile(state, ctx) {
   ctx.strokeRect(1050, 125, 200, 375)
   ctx.strokeRect(1050, 525, 200, 75)
   ctx.strokeRect(1050, 625, 200, 75)
-
+  const dorfCheck = tyepeofstate.G.player[state.ctx.currentPlayer].handTile
   ctx.fillText(
     "hand: " + state.G.player[state.ctx.currentPlayer].handTile,
     1150,

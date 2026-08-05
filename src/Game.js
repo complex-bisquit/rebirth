@@ -91,10 +91,10 @@ export const Game = {
       player.bag
         .fill("F", 0, 12)
         .fill("E", 12, 24)
-        .fill("D1", 24, 27)
-        .fill("D2", 27, 30)
-        .fill("D3", 30, 33)
-        .fill("D4", 33, 36)
+        .fill(1, 24, 27)
+        .fill(2, 27, 30) // Influence Points
+        .fill(3, 30, 33)
+        .fill(4, 33, 36)
 
       player.bag = random.Shuffle(player.bag)
       player.itemSave.push(player.bag.pop())
@@ -180,10 +180,10 @@ WWWFCDPWWWW
         return INVALID_MOVE
       } else if (
         state.G.board[id].type === "D" &&
-        (state.G.player[state.ctx.currentPlayer].handTile === "D1" ||
-          state.G.player[state.ctx.currentPlayer].handTile === "D2" ||
-          state.G.player[state.ctx.currentPlayer].handTile === "D3" ||
-          state.G.player[state.ctx.currentPlayer].handTile === "D4")
+        (state.G.player[state.ctx.currentPlayer].handTile === 1 ||
+          state.G.player[state.ctx.currentPlayer].handTile === 2 ||
+          state.G.player[state.ctx.currentPlayer].handTile === 3 ||
+          state.G.player[state.ctx.currentPlayer].handTile === 4)
       ) {
         state.G.board[id].influence =
           state.G.player[state.ctx.currentPlayer].handTile
