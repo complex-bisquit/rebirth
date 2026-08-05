@@ -13,9 +13,11 @@ function searchScore(state, curID) {
     while (unvisited.length !== 0) {
       for (let tileID of curCurID.neighbours) {
         const tile = state.G.board[tileID - 1]
-        if (visited.includes(tile)) {
+        if (visited.includes(tile) || unvisited.includes(tile)) {
           continue
         }
+        const tileType = tile.type === "P" ? tile.usedItem : tile.type
+        const curCurType
         if (tile.type === "P") {
           if (tile.usedItem === curCurID.type && tile.occ === curCurID.occ) {
             unvisited.push(tile)
