@@ -144,8 +144,9 @@ function hexagon(ctx, state, x, y, a, b) {
 
       let plainsCheck = tile.type === "P" ? tile.usedItem : tile.type
       if (tile.occ !== null) {
-        if (typeof plainsCheck == "number") {
-          plainsCheck = "D" + plainsCheck
+        //console.log("HI THERE ", typeof plainsCheck, plainsCheck)
+        if (plainsCheck === "D") {
+          plainsCheck = "D" + tile.influence
         }
         ctx.fillStyle = state.G.player[tile.occ].colour
         ctx.textBaseline = "middle"
