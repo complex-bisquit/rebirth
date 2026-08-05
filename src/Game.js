@@ -233,6 +233,10 @@ WWWFCDPWWWW
 
   endIf: ({ G, ctx, random }) => {
     const player = G.player
+    for (let i = 0; i < ctx.numPlayers; i++) {
+      if(player[i].bag.length)
+
+    }
     if (
       player[0].bag.length === 0 &&
       player[1].bag.length === 0 &&
