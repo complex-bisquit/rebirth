@@ -145,6 +145,8 @@ export const Game = {
     player3.handTile = player3.bag.pop()
     player4.handTile = player4.bag.pop()
 
+    for (let i = 0; i < turn.minPlayers; i++) {}
+
     let playerRelated = [player1, player2, player3, player4]
 
     // W = Wasser
