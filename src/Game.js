@@ -82,41 +82,10 @@ function getNeighbours(board) {
 /** @type {Game} */
 export const Game = {
   setup: ({ random, ctx }) => {
-    const player1 = {
-      score: 0,
-      bag: [],
-      handTile: null,
-      colour: "red",
-      itemSave: [],
-    }
-
-    const player2 = {
-      score: 0,
-      bag: [],
-      handTile: null,
-      colour: "blue",
-      itemSave: [],
-    }
-
-    const player3 = {
-      score: 0,
-      bag: [],
-      handTile: null,
-      colour: "orange",
-      itemSave: [],
-    }
-
-    const player4 = {
-      score: 0,
-      bag: [],
-      handTile: null,
-      colour: "white",
-      itemSave: [],
-    }
-    const colours = ["red", "blue", "orange", "white"]
+    const colours = ["red", "blue", "orange", "black"]
     let playerRelated = []
 
-    for (let i = 0; i < state.ctx.numPlayers; i++) {
+    for (let i = 0; i < ctx.numPlayers; i++) {
       const player = {
         score: 0,
         bag: [],
@@ -133,10 +102,11 @@ export const Game = {
         .fill("D2", 27, 30)
         .fill("D3", 30, 33)
         .fill("D4", 33, 36)
-      playerRelated[i].bag = random.Shuffle(player1.bag)
-      playerRelated[i].itemSave.push(playerRelated[i].bag.pop())
-      playerRelated[i].itemSave.push(playerRelated[i].bag.pop())
-      playerRelated[i].handTile = playerRelated[i].bag.pop()
+      player.bag = random.Shuffle(player.bag)
+      player.itemSave.push(player.bag.pop())
+      player.itemSave.push(player.bag.pop())
+      player.handTile = player.bag.pop()
+      playerRelated.push(player)
     }
 
     // W = Wasser
