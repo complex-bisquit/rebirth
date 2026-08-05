@@ -114,7 +114,7 @@ export const Game = {
       itemSave: [],
     }
 
-    player1.bag.length = 4
+    player1.bag.length = 36
     player1.bag
       .fill("F", 0, 12)
       .fill("E", 12, 24)
@@ -122,32 +122,13 @@ export const Game = {
       .fill("D2", 27, 30)
       .fill("D3", 30, 33)
       .fill("D4", 33, 36)
-
-    player1.bag = random.Shuffle(player1.bag)
-    player2.bag = random.Shuffle(player1.bag)
-    player3.bag = random.Shuffle(player1.bag)
-    player4.bag = random.Shuffle(player1.bag)
-
-    player1.itemSave.push(player1.bag.pop()) //delete 2 elements
-    player1.itemSave.push(player1.bag.pop())
-
-    player2.itemSave.push(player2.bag.pop()) //delete 2 elements
-    player2.itemSave.push(player2.bag.pop())
-
-    player3.itemSave.push(player3.bag.pop()) //delete 2 elements
-    player3.itemSave.push(player3.bag.pop())
-
-    player4.itemSave.push(player4.bag.pop()) //delete 2 elements
-    player4.itemSave.push(player4.bag.pop())
-
-    player1.handTile = player1.bag.pop()
-    player2.handTile = player2.bag.pop()
-    player3.handTile = player3.bag.pop()
-    player4.handTile = player4.bag.pop()
-
-    for (let i = 0; i < turn.minPlayers; i++) {}
-
     let playerRelated = [player1, player2, player3, player4]
+    for (let i = 0; i < state.ctx.numPlayers; i++) {
+      playerRelated[i].bag = random.Shuffle(player1.bag)
+      playerRelated[i].itemSave.push(playerRelated[i].bag.pop())
+      playerRelated[i].itemSave.push(playerRelated[i].bag.pop())
+      playerRelated[i].handTile = playerRelated[i].bag.pop()
+    }
 
     // W = Wasser
     // D = Dorf
