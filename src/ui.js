@@ -142,8 +142,11 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.fill()
       ctx.stroke()
 
-      const plainsCheck = tile.type === "P" ? tile.usedItem : tile.type
+      let plainsCheck = tile.type === "P" ? tile.usedItem : tile.type
       if (tile.occ !== null) {
+        if (typeof plainsCheck == "number") {
+          plainsCheck = "D" + plainsCheck
+        }
         ctx.fillStyle = state.G.player[tile.occ].colour
         ctx.textBaseline = "middle"
         ctx.textAlign = "center"
