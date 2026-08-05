@@ -269,5 +269,14 @@ WWWFCDPWWWW
 
   disableUndo: true,
 
-  endIf: ({ G, ctx, random }) => {},
+  endIf: ({ G, ctx, random }) => {
+    const player = state.G.player
+    if (
+      player[0].bag.length === 0 &&
+      player[1].bag.length === 0 &&
+      player[2].bag.length === 0 &&
+      player[3].bag.length === 0
+    ) {
+    }
+  },
 }
