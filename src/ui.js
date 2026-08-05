@@ -23,7 +23,7 @@ export function draw(
   })
 
   if (state.ctx.gameover) {
-    const bestPlayer = state.ctx.gameover.bestPlayer.id
+    const bestPlayer = state.ctx.gameover.id
     ctx.fillStyle = state.G.player[bestPlayer].colour
     ctx.font = "30px Times New Roman"
     ctx.textAlign = "center"

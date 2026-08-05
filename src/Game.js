@@ -90,7 +90,7 @@ export const Game = {
         score: 0,
         bag: [],
         handTile: null,
-        ID: i,
+        id: i,
         colour: colours[i],
         itemSave: [],
       }
@@ -102,6 +102,7 @@ export const Game = {
         .fill("D2", 27, 30)
         .fill("D3", 30, 33)
         .fill("D4", 33, 36)
+
       player.bag = random.Shuffle(player.bag)
       player.itemSave.push(player.bag.pop())
       player.itemSave.push(player.bag.pop())
@@ -234,28 +235,21 @@ WWWFCDPWWWW
   endIf: ({ G, ctx, random }) => {
     const player = G.player
     for (let i = 0; i < ctx.numPlayers; i++) {
-      if(player[i].bag.length)
-
-    }
-    if (
-      player[0].bag.length === 0 &&
-      player[1].bag.length === 0 &&
-      player[2].bag.length === 0 &&
-      player[3].bag.length === 0
-    ) {
-      let bestPlayer = {
-        bigScore: 0,
-        id: 0,
+      if (player[i].handTile !== undefined) {
+        return null
       }
-      for (let i = 0; i < 4; i++) {
-        if (player[i].score > bestPlayer.bigScore) {
-          bestPlayer.bigScore = player[i].score
-          bestPlayer.id = i
-        }
-      }
-      console.log("BEST ONE: ", bestPlayer)
-      return bestPlayer
     }
-    return null
+    let bestPlayer = {
+      bigScore: 0,
+      id: 0,
+    }
+    for (let i = 0; i < ctx.numPlayers; i++) {
+      if (player[i].score > bestPlayer.bigScore) {
+        bestPlayer.bigScore = player[i].score
+        bestPlayer.id = player[i].id
+      }
+    }
+    console.log("BEST ONE: ", bestPlayer)
+    return bestPlayer
   },
 }
