@@ -31,6 +31,7 @@ function searchScore(state, curID) {
     state.G.player[state.ctx.currentPlayer].score += visited.length
   }
   if (state.G.board[curID].type === "D") {
+    console.log("entering Village thing")
     let curCurID = state.G.board[curID]
     let unvisited = [curCurID]
     let visited = []
@@ -48,12 +49,14 @@ function searchScore(state, curID) {
       curCurID = unvisited[1]
       unvisited.shift()
     }
+    console.log("Ending while loop")
     let mostInfluence = {
       score: 0,
       id: 0,
     }
     let checkInfluence = [0, 0, 0, 0]
     let wasEmpty = 0
+    console.log("Checking for occ")
     for (let goodTile of visited) {
       if (goodTile.occ === null) {
         //MAKE THIS THING WORK
@@ -61,6 +64,7 @@ function searchScore(state, curID) {
         break
       }
     }
+    console.log("Entering calculation")
     if (wasEmpty === 0) {
       for (let i; i < visited.length; i++) {
         const goodPlayer = visited[i].occ
@@ -68,10 +72,15 @@ function searchScore(state, curID) {
         checkInfluence[goodPlayer] += visited[i].influence
       }
       for (let i; i < checkInfluence.length; i++) {
+        console.log(
+          "check Influence and score",
+          checkInfluence[i],
+          mostInfluence.score,
+        )
         if (checkInfluence[i] > mostInfluence.score) {
           mostInfluence.score = checkInfluence[i]
           mostInfluence.id = i
-          console.log("influence", mostInfluence)
+          console.log("Influence", i, mostInfluence.score)
         }
       }
       if (visited.length === 2) {
@@ -79,6 +88,7 @@ function searchScore(state, curID) {
       } else if (visited.length === 3) {
         mostInfluence = 8
       }
+      console.log("calculation END")
       state.G.player[mostInfluence.id].score += mostInfluence.score
     }
   }
@@ -255,7 +265,6 @@ WWWFCDPWWWW
 
       state.G.player[state.ctx.currentPlayer].handTile =
         state.G.player[state.ctx.currentPlayer].bag.shift()
-      console.log("MOIN")
       searchScore(state, id)
     },
   },
