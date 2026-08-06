@@ -85,9 +85,13 @@ function searchScore(state, curID) {
       }
       if (visited.length === 2) {
         mostInfluence.score = 5
+        secondMostInfluence.score = 3
       } else if (visited.length === 3) {
         mostInfluence = 8
+        secondMostInfluence.score = 5
       }
+      state.G.player[mostInfluence.id].score += mostInfluence.score
+      state.G.player[secondMostInfluence.id].score += secondMostInfluence.score
     }
   }
 }
