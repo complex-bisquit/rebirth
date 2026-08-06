@@ -144,24 +144,37 @@ function getNeighbours(board) {
 }
 
 function castleScoring(state) {
+  let allCastles = []
   let occNearCastle = Array(state.ctx.numPlayers).fill(0)
 
-  for (let checkCastle of state.G.board[id].neighbours) {
-    if (checkCastle.type === "C" && checkCastle.occ === null) {
-      checkCastle.occ = state.ctx.currentPlayer
-      checkCastle.firstPlayerID = state.ctx.currentPlayer
+  for (let possCastle of state.G.board) {
+    if (possCastle.type === "C" && possCastle.occ !== null) {
+      allCastles.push(possCastle)
     }
-    if (checkCastle.type === "C") {
-      for (let neighboursC of state.G.board[checkCastle.id - 1].neighbours) {
-        if (neighboursC.occ !== null) {
-          occNearCastle[neighboursC.occ]++
-        }
-        let wasEmpty = 0
-        if (goodTile.occ === null) {
-          wasEmpty += 1
-        }
+  }
+
+  for (let castle of allCastles) {
+    for (let neighbourC of castle.neighbours) {
+      if (neighbourC.occ !== null) {
+        occNearCastle[neighbourC.occ]++
       }
     }
+
+    let mostOcc = {
+      score: 0,
+      id: null,
+    }
+    for (let i = 0; i < occNearCastle.length; i++) {
+      if (mostOcc.score < occNearCastle[i]) {
+        mostOcc.score = occNearCastle[i]
+        mostOcc.id = i
+      } else if (mostOcc.score === occNearCastle[i]) {
+        mostOcc.id = castle.firstPlayerID
+      }
+    }
+    castle.occ = mostOcc.id
+
+    state.G.player[castle.occ].score += 5
   }
 }
 
