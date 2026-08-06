@@ -56,7 +56,7 @@ function searchScore(state, curID) {
       score: 0,
       id: 0,
     }
-    let checkInfluence = [0, 0, 0, 0]
+    let checkInfluence = Array(state.ctx.numPlayers).fill(0)
     let wasEmpty = 0
     for (let goodTile of visited) {
       if (goodTile.occ === null) {
@@ -74,7 +74,7 @@ function searchScore(state, curID) {
         if (checkInfluence[i] > mostInfluence.score) {
           mostInfluence.score = checkInfluence[i]
           mostInfluence.id = i
-          console.log("Check most Influence", mostInfluence.id)
+          console.log("Check most Influence", mostInfluence)
         }
         if (
           checkInfluence[i] < mostInfluence.score &&
@@ -82,7 +82,7 @@ function searchScore(state, curID) {
         ) {
           secondMostInfluence.score = checkInfluence[i]
           secondMostInfluence.id = i
-          console.log("Check secmost Influence", secondMostInfluence.id)
+          console.log("Check secmost Influence", secondMostInfluence)
         }
       }
       if (visited.length === 2) {
