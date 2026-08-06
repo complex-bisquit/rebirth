@@ -72,6 +72,7 @@ function searchScore(state, curID) {
       }
       console.log("checking checkInfl", checkInfluence)
       for (let i = 0; i < checkInfluence.length; i++) {
+        //HELL 3rd edition
         if (checkInfluence[i] > mostInfluence.score) {
           mostInfluence.score = checkInfluence[i]
           mostInfluence.id = i
@@ -79,7 +80,8 @@ function searchScore(state, curID) {
         }
         if (
           checkInfluence[i] <= mostInfluence.score &&
-          checkInfluence[i] > secondMostInfluence.score
+          checkInfluence[i] > secondMostInfluence.score &&
+          mostInfluence.id !== i
         ) {
           secondMostInfluence.score = checkInfluence[i]
           secondMostInfluence.id = i
