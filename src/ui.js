@@ -120,17 +120,17 @@ function hexagon(ctx, state, x, y, a, b) {
       if (tile.type === "W") {
         ctx.fillStyle = "rgb(0, 150, 170)"
       } else if (tile.type === "D") {
-        ctx.fillStyle = "brown"
+        ctx.fillStyle = "rgb(170, 113, 8)"
       } else if (tile.type === "E") {
-        ctx.fillStyle = "grey"
+        ctx.fillStyle = "rgb(94, 104, 105)"
       } else if (tile.type === "P") {
-        ctx.fillStyle = "rgb(0,255,0)"
+        ctx.fillStyle = "rgb(0, 158, 8)"
       } else if (tile.type === "F") {
-        ctx.fillStyle = "rgb(7, 143, 7)"
+        ctx.fillStyle = "rgb(0, 117, 0)"
       } else if (tile.type === "C") {
-        ctx.fillStyle = "purple"
+        ctx.fillStyle = "rgb(151, 72, 131)"
       } else {
-        ctx.fillStyle = "yellow"
+        ctx.fillStyle = "rgb(204, 207, 21)"
       }
 
       ctx.strokeStyle = "rgb(22, 19, 19)"
