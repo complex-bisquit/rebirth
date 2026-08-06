@@ -151,7 +151,7 @@ function castleScoring(G, ctx) {
   console.log("starting search c")
   for (let possCastle of G.board) {
     if (possCastle.type === "C") {
-      allCastles.push(possCastle)
+      allCastles.push({ ...possCastle })
     }
   }
 
