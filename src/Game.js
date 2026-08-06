@@ -48,12 +48,43 @@ function searchScore(state, curID) {
       curCurID = unvisited[1]
       unvisited.shift()
     }
-    let mostInfluence = 0
-    let justInfluence = 0
+    let mostInfluence = {
+      score: 0,
+      id: 0,
+    }
+    let secondMostInfluence = {
+      score: 0,
+      id: 0,
+    }
+    let checkInfluence = [0, 0, 0, 0]
+    let wasEmpty = 0
     for (let goodTile of visited) {
       if (goodTile.occ === null) {
         //MAKE THIS THING WORK
+        wasEmpty += 1
         break
+      }
+    }
+    if (wasEmpty === 0) {
+      for (let i; i < visited.length; i++) {
+        const goodPlayer = visited[i].occ
+        checkInfluence[goodPlayer] += visited[i].influence
+      }
+      for (let i; i < checkInfluence.length; i++) {
+        if (checkInfluence[i] > mostInfluence.score) {
+          mostInfluence.score = checkInfluence[i]
+          mostInfluence.id = i
+        }
+        if (
+          checkInfluence[i] < mostInfluence.score &&
+          checkInfluence[i] > secondMostInfluence.score
+        ) {
+        }
+      }
+      if (visited.length === 2) {
+        mostInfluence.score = 5
+      } else if (visited.length === 3) {
+        mostInfluence = 8
       }
     }
   }
