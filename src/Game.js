@@ -79,6 +79,8 @@ function searchScore(state, curID) {
           checkInfluence[i] < mostInfluence.score &&
           checkInfluence[i] > secondMostInfluence.score
         ) {
+          secondMostInfluence.score = checkInfluence[i]
+          secondMostInfluence.id = i
         }
       }
       if (visited.length === 2) {
