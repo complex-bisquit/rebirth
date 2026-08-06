@@ -77,7 +77,7 @@ function searchScore(state, curID) {
           console.log("Check most Influence", mostInfluence)
         }
         if (
-          checkInfluence[i] < mostInfluence.score &&
+          checkInfluence[i] <= mostInfluence.score &&
           checkInfluence[i] > secondMostInfluence.score
         ) {
           secondMostInfluence.score = checkInfluence[i]
@@ -94,8 +94,8 @@ function searchScore(state, curID) {
       }
       console.log(
         "Check most and secmost Influence",
-        mostInfluence.id,
-        secondMostInfluence.id,
+        mostInfluence,
+        secondMostInfluence,
       )
       state.G.player[mostInfluence.id].score += mostInfluence.score
       state.G.player[secondMostInfluence.id].score += secondMostInfluence.score
