@@ -16,6 +16,7 @@ export function draw(
   let y = 25
   const a = (y / 2) * Math.sqrt(3)
   const b = y / 2
+
   hexagon(ctx, state, x, y, a, b)
   drawHandTile(state, ctx)
   onClick(x - a, y, 498, 9 * 2 * b + 10 * 4 * b, (mouseX, mouseY) => {
@@ -32,6 +33,11 @@ export function draw(
   }
 }
 function drawHandTile(state, ctx) {
+  ctx.fillStyle = "rgb(255, 255, 255)"
+  ctx.fillRectRect(1050, 25, 200, 75)
+  ctx.fillRect(1050, 125, 200, 375)
+  ctx.fillRect(1050, 525, 200, 75)
+  ctx.fillRect(1050, 625, 200, 75)
   ctx.fillStyle = state.G.player[state.ctx.currentPlayer].colour
   ctx.strokeStyle = "black"
   ctx.font = "30px Times New Roman"
@@ -110,8 +116,6 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
 }
 
 function hexagon(ctx, state, x, y, a, b) {
-  ctx.fillStyle = "rgb(0, 150, 170)"
-  ctx.fillRect(0, 0, 1600, 1000)
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
       ctx.beginPath()
