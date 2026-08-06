@@ -143,6 +143,28 @@ function getNeighbours(board) {
   }
 }
 
+function castleScoring(state) {
+  let occNearCastle = Array(state.ctx.numPlayers).fill(0)
+
+  for (let checkCastle of state.G.board[id].neighbours) {
+    if (checkCastle.type === "C" && checkCastle.occ === null) {
+      checkCastle.occ = state.ctx.currentPlayer
+      checkCastle.firstPlayerID = state.ctx.currentPlayer
+    }
+    if (checkCastle.type === "C") {
+      for (let neighboursC of state.G.board[checkCastle.id - 1].neighbours) {
+        if (neighboursC.occ !== null) {
+          occNearCastle[neighboursC.occ]++
+        }
+        let wasEmpty = 0
+        if (goodTile.occ === null) {
+          wasEmpty += 1
+        }
+      }
+    }
+  }
+}
+
 /** @type {Game} */
 export const Game = {
   setup: ({ random, ctx }) => {
@@ -273,6 +295,13 @@ WWWFCDPWWWW
       }
 
       state.G.board[id].occ = state.ctx.currentPlayer
+
+      for (let checkCastle of state.G.board[id].neighbours) {
+        if (checkCastle.type === "C" && checkCastle.occ === null) {
+          checkCastle.occ = state.ctx.currentPlayer
+          checkCastle.firstPlayerID = state.ctx.currentPlayer
+        }
+      }
 
       state.G.player[state.ctx.currentPlayer].handTile =
         state.G.player[state.ctx.currentPlayer].bag.shift()
