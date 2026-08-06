@@ -358,7 +358,7 @@ WWWFCDPWWWW
       }
     }
     console.log("ende")
-    castleScoring(G, ctx)
+    // castleScoring(G, ctx)
     let bestPlayer = {
       bigScore: 0,
       id: 0,
