@@ -144,18 +144,22 @@ function getNeighbours(board) {
 }
 
 function castleScoring(G, ctx) {
+  console.log("start c score")
   let allCastles = []
   let occNearCastle = Array(ctx.numPlayers).fill(0)
 
+  console.log("starting search c")
   for (let possCastle of G.board) {
     if (possCastle.type === "C" && possCastle.occ !== null) {
       allCastles.push(possCastle)
     }
   }
 
+  console.log("starting neighbours check")
   for (let castle of allCastles) {
     for (let neighbourC of castle.neighbours) {
       if (neighbourC.occ !== null) {
+        console.log("found one")
         occNearCastle[neighbourC.occ]++
       }
     }
@@ -168,6 +172,7 @@ function castleScoring(G, ctx) {
       if (mostOcc.score < occNearCastle[i]) {
         mostOcc.score = occNearCastle[i]
         mostOcc.id = i
+        console.log(mostOcc)
       } else if (mostOcc.score === occNearCastle[i]) {
         mostOcc.id = castle.firstPlayerID
       }
@@ -175,6 +180,7 @@ function castleScoring(G, ctx) {
     castle.occ = mostOcc.id
 
     G.player[castle.occ].score += 5
+    console.log(G.player[castle.occ].score)
   }
 }
 
