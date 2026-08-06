@@ -70,11 +70,12 @@ function searchScore(state, curID) {
         const goodPlayer = visited[i].occ
         checkInfluence[goodPlayer] += visited[i].influence
       }
+      console.log("checking checkInfl", checkInfluence)
       for (let i = 0; i < checkInfluence.length; i++) {
         if (checkInfluence[i] > mostInfluence.score) {
           mostInfluence.score = checkInfluence[i]
           mostInfluence.id = i
-          console.log("Check most Influence", mostInfluence)
+          console.dir("Check most Influence", mostInfluence)
         }
         if (
           checkInfluence[i] <= mostInfluence.score &&
