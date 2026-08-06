@@ -143,11 +143,11 @@ function getNeighbours(board) {
   }
 }
 
-function castleScoring(state) {
+function castleScoring(G, ctx) {
   let allCastles = []
-  let occNearCastle = Array(state.ctx.numPlayers).fill(0)
+  let occNearCastle = Array(ctx.numPlayers).fill(0)
 
-  for (let possCastle of state.G.board) {
+  for (let possCastle of G.board) {
     if (possCastle.type === "C" && possCastle.occ !== null) {
       allCastles.push(possCastle)
     }
@@ -174,7 +174,7 @@ function castleScoring(state) {
     }
     castle.occ = mostOcc.id
 
-    state.G.player[castle.occ].score += 5
+    G.player[castle.occ].score += 5
   }
 }
 
@@ -193,7 +193,7 @@ export const Game = {
         colour: colours[i],
         itemSave: [],
       }
-      player.bag.length = 36
+      player.bag.length = 6
       player.bag
         .fill("F", 0, 12)
         .fill("E", 12, 24)
@@ -339,19 +339,20 @@ WWWFCDPWWWW
 
   disableUndo: true,
 
-  endIf: ({ state, random }) => {
-    const player = state.G.player
-    for (let i = 0; i < state.ctx.numPlayers; i++) {
+  endIf: ({ G, ctx, random }) => {
+    const player = G.player
+    for (let i = 0; i < ctx.numPlayers; i++) {
       if (player[i].handTile !== undefined) {
         return null
       }
     }
-    castleScoring(state)
+    console.log("ende")
+    castleScoring(G, ctx)
     let bestPlayer = {
       bigScore: 0,
       id: 0,
     }
-    for (let i = 0; i < state.ctx.numPlayers; i++) {
+    for (let i = 0; i < ctx.numPlayers; i++) {
       if (player[i].score > bestPlayer.bigScore) {
         bestPlayer.bigScore = player[i].score
         bestPlayer.id = player[i].id
