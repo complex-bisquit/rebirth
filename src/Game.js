@@ -74,6 +74,7 @@ function searchScore(state, curID) {
         if (checkInfluence[i] > mostInfluence.score) {
           mostInfluence.score = checkInfluence[i]
           mostInfluence.id = i
+          console.log("Check most Influence", mostInfluence.id)
         }
         if (
           checkInfluence[i] < mostInfluence.score &&
@@ -81,15 +82,21 @@ function searchScore(state, curID) {
         ) {
           secondMostInfluence.score = checkInfluence[i]
           secondMostInfluence.id = i
+          console.log("Check secmost Influence", secondMostInfluence.id)
         }
       }
       if (visited.length === 2) {
         mostInfluence.score = 5
         secondMostInfluence.score = 3
       } else if (visited.length === 3) {
-        mostInfluence = 8
+        mostInfluence.score = 8
         secondMostInfluence.score = 5
       }
+      console.log(
+        "Check most and secmost Influence",
+        mostInfluence.id,
+        secondMostInfluence.id,
+      )
       state.G.player[mostInfluence.id].score += mostInfluence.score
       state.G.player[secondMostInfluence.id].score += secondMostInfluence.score
     }
