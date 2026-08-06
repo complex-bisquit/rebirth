@@ -52,10 +52,6 @@ function searchScore(state, curID) {
       score: 0,
       id: 0,
     }
-    let secondMostInfluence = {
-      score: 0,
-      id: 0,
-    }
     let checkInfluence = [0, 0, 0, 0]
     let wasEmpty = 0
     for (let goodTile of visited) {
@@ -68,30 +64,22 @@ function searchScore(state, curID) {
     if (wasEmpty === 0) {
       for (let i; i < visited.length; i++) {
         const goodPlayer = visited[i].occ
+        console.log("LOL", goodPlayer)
         checkInfluence[goodPlayer] += visited[i].influence
       }
       for (let i; i < checkInfluence.length; i++) {
         if (checkInfluence[i] > mostInfluence.score) {
           mostInfluence.score = checkInfluence[i]
           mostInfluence.id = i
-        }
-        if (
-          checkInfluence[i] < mostInfluence.score &&
-          checkInfluence[i] > secondMostInfluence.score
-        ) {
-          secondMostInfluence.score = checkInfluence[i]
-          secondMostInfluence.id = i
+          console.log("influence", mostInfluence)
         }
       }
       if (visited.length === 2) {
         mostInfluence.score = 5
-        secondMostInfluence.score = 3
       } else if (visited.length === 3) {
         mostInfluence = 8
-        secondMostInfluence.score = 5
       }
       state.G.player[mostInfluence.id].score += mostInfluence.score
-      state.G.player[secondMostInfluence.id].score += secondMostInfluence.score
     }
   }
 }
