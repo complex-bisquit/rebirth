@@ -31,7 +31,6 @@ function searchScore(state, curID) {
     state.G.player[state.ctx.currentPlayer].score += visited.length
   }
   if (state.G.board[curID].type === "D") {
-    console.log("entering Village thing")
     let curCurID = state.G.board[curID]
     let unvisited = [curCurID]
     let visited = []
@@ -49,14 +48,16 @@ function searchScore(state, curID) {
       curCurID = unvisited[1]
       unvisited.shift()
     }
-    console.log("Ending while loop")
     let mostInfluence = {
+      score: 0,
+      id: 0,
+    }
+    let secondMostInfluence = {
       score: 0,
       id: 0,
     }
     let checkInfluence = [0, 0, 0, 0]
     let wasEmpty = 0
-    console.log("Checking for occ")
     for (let goodTile of visited) {
       if (goodTile.occ === null) {
         //MAKE THIS THING WORK
@@ -64,32 +65,33 @@ function searchScore(state, curID) {
         break
       }
     }
-    console.log("Entering calculation")
     if (wasEmpty === 0) {
-      for (let i; i < visited.length; i++) {
+      for (let i = 0; i < visited.length; i++) {
         const goodPlayer = visited[i].occ
-        console.log("LOL", goodPlayer)
         checkInfluence[goodPlayer] += visited[i].influence
       }
-      for (let i; i < checkInfluence.length; i++) {
-        console.log(
-          "check Influence and score",
-          checkInfluence[i],
-          mostInfluence.score,
-        )
+      for (let i = 0; i < checkInfluence.length; i++) {
         if (checkInfluence[i] > mostInfluence.score) {
           mostInfluence.score = checkInfluence[i]
           mostInfluence.id = i
-          console.log("Influence", i, mostInfluence.score)
+        }
+        if (
+          checkInfluence[i] < mostInfluence.score &&
+          checkInfluence[i] > secondMostInfluence.score
+        ) {
+          secondMostInfluence.score = checkInfluence[i]
+          secondMostInfluence.id = i
         }
       }
       if (visited.length === 2) {
         mostInfluence.score = 5
+        secondMostInfluence.score = 3
       } else if (visited.length === 3) {
         mostInfluence = 8
+        secondMostInfluence.score = 5
       }
-      console.log("calculation END")
       state.G.player[mostInfluence.id].score += mostInfluence.score
+      state.G.player[secondMostInfluence.id].score += secondMostInfluence.score
     }
   }
 }
@@ -265,6 +267,7 @@ WWWFCDPWWWW
 
       state.G.player[state.ctx.currentPlayer].handTile =
         state.G.player[state.ctx.currentPlayer].bag.shift()
+      console.log("MOIN")
       searchScore(state, id)
     },
   },
