@@ -192,7 +192,7 @@ function castleScoring(G, ctx) {
 /** @type {Game} */
 export const Game = {
   setup: ({ random, ctx }) => {
-    const colours = ["red", "blue", "orange", "black"]
+    const colours = ["red", "rgb(0, 71, 112)", "orange", "black"]
     let playerRelated = []
 
     for (let i = 0; i < ctx.numPlayers; i++) {

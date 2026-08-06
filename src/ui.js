@@ -128,7 +128,7 @@ function hexagon(ctx, state, x, y, a, b) {
       } else if (tile.type === "F") {
         ctx.fillStyle = "rgb(0, 117, 0)"
       } else if (tile.type === "C") {
-        ctx.fillStyle = "rgb(151, 72, 131)"
+        ctx.fillStyle = "rgb(133, 62, 115)"
       } else {
         ctx.fillStyle = "rgb(204, 207, 21)"
       }
@@ -141,7 +141,9 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.lineTo(x + a, y + 3 * b)
       ctx.lineTo(x + a, y + b)
       ctx.closePath()
-      ctx.fill()
+      if (tile.type !== "W") {
+        ctx.fill()
+      }
       if (tile.type !== "W") {
         ctx.stroke()
       }
