@@ -178,10 +178,11 @@ function castleScoring(G, ctx) {
         console.log(mostOcc)
       } else if (mostOcc.score === occNearCastle[i]) {
         mostOcc.id = castle.firstPlayerID
+        console.log(castle.firstPlayerID)
       }
     }
     castle.occ = mostOcc.id
-
+    console.log(castle.occ)
     G.player[castle.occ].score += 5
     console.log(G.player[castle.occ].score)
   }
@@ -322,6 +323,7 @@ WWWFCDPWWWW
         if (checkCastle.type === "C" && checkCastle.occ === null) {
           checkCastle.occ = state.ctx.currentPlayer
           checkCastle.firstPlayerID = state.ctx.currentPlayer
+          console.log("first ", checkCastle.firstPlayerID)
         }
       }
 
