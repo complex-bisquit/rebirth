@@ -110,13 +110,15 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
 }
 
 function hexagon(ctx, state, x, y, a, b) {
+  ctx.fillStyle = "rgb(0, 150, 170)"
+  ctx.fillRect(0, 0, 1600, 1000)
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
       ctx.beginPath()
       const tile = state.G.board[i - 1 + (countRow - 1) * 11]
 
       if (tile.type === "W") {
-        ctx.fillStyle = "blue"
+        ctx.fillStyle = "rgb(0, 150, 170)"
       } else if (tile.type === "D") {
         ctx.fillStyle = "brown"
       } else if (tile.type === "E") {
@@ -140,7 +142,9 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.lineTo(x + a, y + b)
       ctx.closePath()
       ctx.fill()
-      ctx.stroke()
+      if (tile.type !== "W") {
+        ctx.stroke()
+      }
 
       let plainsCheck = tile.type === "P" ? tile.usedItem : tile.type
       if (tile.occ !== null) {

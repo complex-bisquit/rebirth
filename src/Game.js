@@ -143,6 +143,7 @@ function getNeighbours(board) {
   }
 }
 
+// wtf we broke everything
 function castleScoring(G, ctx) {
   console.log("start c score")
   let allCastles = []
@@ -203,7 +204,7 @@ export const Game = {
         colour: colours[i],
         itemSave: [],
       }
-      player.bag.length = 6
+      player.bag.length = 36
       player.bag
         .fill("F", 0, 12)
         .fill("E", 12, 24)
