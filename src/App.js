@@ -16,7 +16,7 @@ class GameClient {
     this.rootElement = rootElement
     ;((this.client = Client({
       game: Game,
-      numPlayers: 3,
+      numPlayers: 2,
       debug: {
         collapseOnLoad: false,
         hideToggleButton: false,
