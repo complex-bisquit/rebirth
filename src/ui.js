@@ -13,6 +13,10 @@ export function draw(
   const ctx = canvas.getContext("2d")
   console.dir(state)
 
+  // background
+  ctx.fillStyle = "rgb(32, 5, 48)"
+  ctx.fillRect(0, 0, 1325, 800)
+
   let x = 525
   let y = 25
   const a = (y / 2) * Math.sqrt(3)
@@ -36,6 +40,7 @@ export function draw(
   }
 }
 function drawUI(state, ctx) {
+  ctx.lineWidth = 1
   let currPlayer = state.ctx.currentPlayer
 
   ctx.fillStyle = state.G.player[currPlayer].colour
@@ -49,11 +54,18 @@ function drawUI(state, ctx) {
   ctx.strokeRect(1050, 125, 200, 375)
   ctx.strokeRect(1050, 550, 200, 75)
   ctx.strokeRect(1050, 725, 200, 75)
+  ctx.fillStyle = "rgb(255, 255, 255)"
+  ctx.fillRect(1050, 3, 200, 72)
+  ctx.fillRect(1050, 125, 200, 375)
+  ctx.fillRect(1050, 550, 200, 75)
+  ctx.fillRect(1050, 725, 200, 72)
 
   // current player
+  ctx.fillStyle = state.G.player[currPlayer].colour
   ctx.fillText("player: " + (Number.parseInt(currPlayer) + 1), 1150, 40)
 
   // score per player
+  ctx.fillStyle = "black"
   ctx.fillText("scores: ", 1150, 170)
 
   for (let i = 0; i < state.ctx.numPlayers; i++) {
@@ -70,12 +82,40 @@ function drawUI(state, ctx) {
 
   const dorfCheck =
     typeof state.G.player[currPlayer].handTile === "number"
-      ? "D" + state.G.player[currPlayer].handTile
+      ? "V" + state.G.player[currPlayer].handTile
       : state.G.player[currPlayer].handTile
   ctx.fillText("hand: " + dorfCheck, 1150, 590)
 
   // two saved items
-  ctx.fillText(state.G.player[currPlayer].itemSave, 1150, 760)
+  ctx.fillText("saved: " + state.G.player[currPlayer].itemSave, 1150, 760) //TODO village influence
+
+  // left side of ui
+  ctx.strokeRect(75, 0, 400, 250)
+  ctx.strokeRect(75, 275, 400, 250)
+  ctx.strokeRect(75, 550, 400, 250)
+  ctx.fillStyle = "rgb(255, 255, 255)"
+  ctx.fillRect(75, 3, 400, 247)
+  ctx.fillRect(75, 275, 400, 250)
+  ctx.fillRect(75, 550, 400, 247)
+
+  // legende
+  ctx.fillStyle = "black"
+  ctx.font = "30px Times New Roman"
+  ctx.textAlign = "left"
+  ctx.textBaseline = "middle"
+  ctx.fillText("legend: ", 100, 575)
+  ctx.fillStyle = "rgb(167, 95, 149)"
+  ctx.fillText("pink: castle (C)", 100, 605)
+  ctx.fillStyle = "rgb(92, 142, 146)"
+  ctx.fillText("blueish grey: electricity (E)", 100, 635)
+  ctx.fillStyle = "rgb(11, 182, 19)"
+  ctx.fillText("light green: plains (F/E)", 100, 665)
+  ctx.fillStyle = "rgb(13, 138, 13)"
+  ctx.fillText("dark green: farm (F)", 100, 695)
+  ctx.fillStyle = "rgb(193, 196, 60)"
+  ctx.fillText("yellow: cathedral (M)", 100, 725)
+  ctx.fillStyle = "rgb(204, 136, 10)"
+  ctx.fillText("orange: village (V)", 100, 755)
 }
 
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
@@ -122,10 +162,17 @@ function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
 }
 
 function hexagon(ctx, state, x, y, a, b) {
+  let board = state.G.board
+
   // background
   ctx.fillStyle = "rgb(10, 160, 180)"
   ctx.fillRect(500, 0, 525, 800)
+  ctx.lineWidth = 3
+  ctx.strokeRect(500, 0, 525, 800)
 
+  ctx.lineWidth = 2
+
+  // could change this to work with tile.row
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
       ctx.beginPath()
@@ -157,25 +204,35 @@ function hexagon(ctx, state, x, y, a, b) {
       ctx.lineTo(x + a, y + 3 * b)
       ctx.lineTo(x + a, y + b)
       ctx.closePath()
+
       if (tile.type !== "W") {
         ctx.fill()
-      }
-      if (tile.type !== "W") {
         ctx.stroke()
       }
 
-      let plainsCheck = tile.type === "P" ? tile.usedItem : tile.type
+      // temporary debug
+      ctx.fillStyle = "black"
+      ctx.textBaseline = "middle"
+      ctx.textAlign = "center"
+      ctx.font = "20px Times New Roman"
+      ctx.fillText(tile.id, x - 1, y + 2 * b - 1)
+
+      let tileOccBy = tile.type === "P" ? tile.usedItem : tile.type
 
       if (tile.occ !== null) {
-        if (plainsCheck === "D") {
-          plainsCheck = "D" + tile.influence
+        if (tileOccBy === "D") {
+          tileOccBy = "V" + tile.influence
+        }
+
+        if (tile.type === "C") {
+          tileOccBy = "C"
         }
 
         ctx.fillStyle = state.G.player[tile.occ].colour
         ctx.textBaseline = "middle"
         ctx.textAlign = "center"
         ctx.font = "20px Times New Roman"
-        ctx.fillText(plainsCheck, x - 1, y + 2 * b - 1)
+        ctx.fillText(tileOccBy, x - 1, y + 2 * b - 1)
       }
 
       x += 2 * a
