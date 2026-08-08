@@ -1,7 +1,11 @@
 /** @import { Game, Move } from "boardgame.io" */
+
 import { TurnOrder } from "boardgame.io/core"
+
 import { INVALID_MOVE } from "boardgame.io/core"
+
 function searchScore(state, curID) {
+  //elec & farm scoring
   if (
     state.G.board[curID].type === "F" ||
     state.G.board[curID].type === "E" ||
@@ -10,12 +14,15 @@ function searchScore(state, curID) {
     let curCurID = state.G.board[curID]
     let unvisited = [curCurID]
     let visited = []
+
     while (unvisited.length !== 0) {
       for (let tileID of curCurID.neighbours) {
         const tile = state.G.board[tileID - 1]
+
         if (visited.includes(tile) || unvisited.includes(tile)) {
           continue
         }
+
         const tileType = tile.type === "P" ? tile.usedItem : tile.type
         const curCurType =
           curCurID.type === "P" ? curCurID.usedItem : curCurID.type
@@ -28,26 +35,35 @@ function searchScore(state, curID) {
       curCurID = unvisited[1]
       unvisited.shift()
     }
+
     state.G.player[state.ctx.currentPlayer].score += visited.length
   }
+
+  //village scoring
   if (state.G.board[curID].type === "D") {
     let curCurID = state.G.board[curID]
     let unvisited = [curCurID]
     let visited = []
+
     while (unvisited.length !== 0) {
       for (let tileID of curCurID.neighbours) {
         const tile = state.G.board[tileID - 1]
+
         if (visited.includes(tile) || unvisited.includes(tile)) {
           continue
         }
+
         if (tile.type === curCurID.type) {
           unvisited.push(tile)
         }
       }
+
       visited.push(curCurID)
       curCurID = unvisited[1]
       unvisited.shift()
     }
+
+    //influence tracking
     let mostInfluence = {
       score: 0,
       id: 0,
@@ -56,27 +72,32 @@ function searchScore(state, curID) {
       score: 0,
       id: 0,
     }
+
     let checkInfluence = Array(state.ctx.numPlayers).fill(0)
-    let wasEmpty = 0
+    let wasUnOcc = 0
+
     for (let goodTile of visited) {
       if (goodTile.occ === null) {
-        wasEmpty += 1
+        wasUnOcc += 1
         break
       }
     }
-    if (wasEmpty === 0) {
+
+    if (wasUnOcc === 0) {
       for (let i = 0; i < visited.length; i++) {
         const goodPlayer = visited[i].occ
         checkInfluence[goodPlayer] += visited[i].influence
       }
-      console.log("checking checkInfl", checkInfluence)
+
+      // console.log("checking checkInfl", checkInfluence)
       for (let i = 0; i < checkInfluence.length; i++) {
         //HELL 3rd edition
         if (checkInfluence[i] > mostInfluence.score) {
           mostInfluence.score = checkInfluence[i]
           mostInfluence.id = i
-          console.dir("Check most Influence", mostInfluence)
+          //console.dir("Check most Influence", mostInfluence)
         }
+
         if (
           checkInfluence[i] <= mostInfluence.score &&
           checkInfluence[i] > secondMostInfluence.score &&
@@ -84,9 +105,10 @@ function searchScore(state, curID) {
         ) {
           secondMostInfluence.score = checkInfluence[i]
           secondMostInfluence.id = i
-          console.log("Check secmost Influence", secondMostInfluence)
+          //console.log("Check secmost Influence", secondMostInfluence)
         }
       }
+
       if (visited.length === 2) {
         mostInfluence.score = 5
         secondMostInfluence.score = 3
@@ -94,11 +116,13 @@ function searchScore(state, curID) {
         mostInfluence.score = 8
         secondMostInfluence.score = 5
       }
-      console.log(
-        "Check most and secmost Influence",
-        mostInfluence,
-        secondMostInfluence,
-      )
+
+      //console.log(
+      //  "Check most and secmost Influence",
+      //  mostInfluence,
+      //  secondMostInfluence,
+      //)
+
       state.G.player[mostInfluence.id].score += mostInfluence.score
       state.G.player[secondMostInfluence.id].score += secondMostInfluence.score
     }
@@ -107,14 +131,16 @@ function searchScore(state, curID) {
 
 function getNeighbours(board) {
   let offset = 0 // HELL
+
   for (const tile of board) {
-    offset = 0
     if (tile.type === "W") {
       continue
     }
+
     if ((tile.row & 1) === 1) {
       offset = 1
     }
+
     if (tile.id < 12) {
       // don't touch (for now)
       tile.neighbours = [tile.id - 1, tile.id + 1, tile.id + 10, tile.id + 11] //oben
@@ -140,6 +166,7 @@ function getNeighbours(board) {
         tile.id - 11 - offset,
       ]
     }
+    offset = 0
   }
 }
 
@@ -157,31 +184,36 @@ function castleScoring(G, ctx) {
   }
 
   console.log("starting neighbours check", allCastles)
+
   for (let castle of allCastles) {
-    console.log("castles")
     for (let neighbourC of castle.neighbours) {
       console.log("vor if")
+
       if (neighbourC.occ !== null) {
         console.log("found one")
         occNearCastle[neighbourC.occ]++
       }
     }
 
+    //checking occupation around castle
     let mostOcc = {
       score: 0,
       id: null,
     }
+
     console.log("scoring")
     for (let i = 0; i < occNearCastle.length; i++) {
       if (mostOcc.score < occNearCastle[i]) {
         mostOcc.score = occNearCastle[i]
         mostOcc.id = i
+
         console.log(mostOcc)
       } else if (mostOcc.score === occNearCastle[i]) {
         mostOcc.id = castle.firstPlayerID
         console.log(castle.firstPlayerID)
       }
     }
+
     castle.occ = mostOcc.id
     console.log(castle.occ)
     G.player[castle.occ].score += 5
@@ -192,27 +224,35 @@ function castleScoring(G, ctx) {
 /** @type {Game} */
 export const Game = {
   setup: ({ random, ctx }) => {
-    const colours = ["red", "rgb(0, 57, 90)", "rgb(0, 0, 0)", "white"]
+    const colours = [
+      "rgb(134, 7, 7)",
+      "rgb(2, 0, 145)",
+      "rgb(0, 0, 0)",
+      "rgb(255, 255, 255)",
+    ]
+
     let playerRelated = []
 
     for (let i = 0; i < ctx.numPlayers; i++) {
       const player = {
+        id: i,
+        colour: colours[i],
         score: 0,
         bag: [],
         handTile: null,
-        id: i,
-        colour: colours[i],
         itemSave: [],
       }
+
       player.bag.length = 36
       player.bag
         .fill("F", 0, 12)
         .fill("E", 12, 24)
-        .fill(1, 24, 27)
-        .fill(2, 27, 30) // Influence Points
+        .fill(1, 24, 27) // Influence Points village
+        .fill(2, 27, 30)
         .fill(3, 30, 33)
         .fill(4, 33, 36)
 
+      // shuffle, get rid of 2 random items, get new handtile
       player.bag = random.Shuffle(player.bag)
       player.itemSave.push(player.bag.pop())
       player.itemSave.push(player.bag.pop())
@@ -227,6 +267,7 @@ export const Game = {
     // F = Farmland
     // C = Castle
     // M = Cathedral
+
     const kategorien = `
 WDDWEDCPWWW
 ECWCEEPDWWW
@@ -248,14 +289,17 @@ WWWWFFPMPCW
 WWWFDFCDDWW
 WWWFCDPWWWW
 `
+
     let id = 1
     const board = []
     let rowNum = 0
+
     for (const kategorie of kategorien) {
       if (kategorie == "\n") {
         rowNum++
         continue
       }
+
       const Tile = {
         id: id,
         type: kategorie,
@@ -264,9 +308,11 @@ WWWFCDPWWWW
         //2 - occupied by player 3. 3 - occupied by player 4
         row: rowNum,
       }
+
       if (kategorie === "P") {
         Tile.usedItem = null
       }
+
       id++
       board.push(Tile)
     }
@@ -283,53 +329,56 @@ WWWFCDPWWWW
 
   moves: {
     /** @type {Move} */
-    //playCard: ({ G, ctx, playerID, events, random }, cardIndex) => {},
-    //drawCard(ctx) {},
-    //clicktile fertig schreiben!!!!!!!
+
     clickTile: function clickTile(state, id) {
       // HELL 2nd edition
+      let board = state.G.board
+      let currPlayer = state.ctx.currentPlayer
+      let players = state.G.player
+
       if (
-        state.G.board[id].occ != null ||
-        state.G.board[id].type === "W" ||
-        state.G.board[id].type === "C" ||
-        state.G.board[id].type === "M"
+        board[id].occ != null ||
+        board[id].type === "W" ||
+        board[id].type === "C" ||
+        board[id].type === "M"
       ) {
         return INVALID_MOVE
       } else if (
-        state.G.board[id].type === "D" &&
-        (state.G.player[state.ctx.currentPlayer].handTile === 1 ||
-          state.G.player[state.ctx.currentPlayer].handTile === 2 ||
-          state.G.player[state.ctx.currentPlayer].handTile === 3 ||
-          state.G.player[state.ctx.currentPlayer].handTile === 4)
+        // if village
+        board[id].type === "D" &&
+        (players[currPlayer].handTile === 1 ||
+          players[currPlayer].handTile === 2 ||
+          players[currPlayer].handTile === 3 ||
+          players[currPlayer].handTile === 4)
       ) {
-        state.G.board[id].influence =
-          state.G.player[state.ctx.currentPlayer].handTile
+        board[id].influence = players[currPlayer].handTile
       } else if (
-        state.G.board[id].type === "P" &&
-        (state.G.player[state.ctx.currentPlayer].handTile === "E" ||
-          state.G.player[state.ctx.currentPlayer].handTile === "F")
+        //if plains set used item to handTile
+        board[id].type === "P" &&
+        (players[currPlayer].handTile === "E" ||
+          players[currPlayer].handTile === "F")
       ) {
-        state.G.board[id].usedItem =
-          state.G.player[state.ctx.currentPlayer].handTile
-      } else if (
-        state.G.player[state.ctx.currentPlayer].handTile !==
-        state.G.board[id].type
-      ) {
+        board[id].usedItem = players[currPlayer].handTile
+      } else if (players[currPlayer].handTile !== board[id].type) {
         return INVALID_MOVE
       }
 
-      state.G.board[id].occ = state.ctx.currentPlayer
+      state.G.board[id].occ = currPlayer
 
-      for (let checkCastle of state.G.board[id].neighbours) {
+      // something something about castles
+      // if not occ setting occ to currPlayer
+      for (let checkCastle of board[id].neighbours) {
+        // cant enter if
         if (checkCastle.type === "C" && checkCastle.occ === null) {
-          checkCastle.occ = state.ctx.currentPlayer
-          checkCastle.firstPlayerID = state.ctx.currentPlayer
-          console.log("first ", checkCastle.firstPlayerID)
+          //TODO fix
+          checkCastle.occ = currPlayer
+          checkCastle.firstPlayerID = currPlayer
+          console.log("first on castle", checkCastle.firstPlayerID)
         }
       }
 
-      state.G.player[state.ctx.currentPlayer].handTile =
-        state.G.player[state.ctx.currentPlayer].bag.shift()
+      // new handTile
+      players[currPlayer].handTile = players[currPlayer].bag.shift()
       searchScore(state, id)
     },
   },
@@ -353,24 +402,27 @@ WWWFCDPWWWW
 
   endIf: ({ G, ctx, random }) => {
     const player = G.player
+
     for (let i = 0; i < ctx.numPlayers; i++) {
       if (player[i].handTile !== undefined) {
         return null
       }
     }
-    console.log("ende")
+
+    console.log("The End")
     // castleScoring(G, ctx)
     let bestPlayer = {
-      bigScore: 0,
+      score: 0,
       id: 0,
     }
+
     for (let i = 0; i < ctx.numPlayers; i++) {
-      if (player[i].score > bestPlayer.bigScore) {
-        bestPlayer.bigScore = player[i].score
+      if (player[i].score > bestPlayer.score) {
+        bestPlayer.score = player[i].score
         bestPlayer.id = player[i].id
       }
     }
-    console.log("BEST ONE: ", bestPlayer)
+
     return bestPlayer
   },
 }

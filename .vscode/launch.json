@@ -5,8 +5,11 @@
       "type": "node",
       "request": "launch",
       "name": "Lokal",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["start"],
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "source ~/.nvm/nvm.sh && nvm use 24.18 && npm start"
+      ],
       "cwd": "${workspaceRoot}"
     },
     {
