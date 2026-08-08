@@ -134,7 +134,7 @@ function getNeighbours(board) {
 
   for (const tile of board) {
     if (tile.type === "W") {
-      continue
+      tile.neighbours = [] // does this break things??
     }
 
     if ((tile.row & 1) === 1) {
@@ -170,27 +170,22 @@ function getNeighbours(board) {
   }
 }
 
-// wtf we broke everything
-function castleScoring(G, ctx) {
-  console.log("start c score")
+function updateCastleOcc(G, ctx) {
+  // TODO wie aufm Zettel tomorrow
+  console.log("has been called")
   let allCastles = []
   let occNearCastle = Array(ctx.numPlayers).fill(0)
 
-  console.log("starting search c")
+  // getting all castles on the board
   for (let possCastle of G.board) {
-    if (possCastle.type === "C") {
-      allCastles.push({ ...possCastle })
+    if (possCastle.type === "C" && possCastle.occ !== null) {
+      allCastles.push(possCastle)
     }
   }
 
-  console.log("starting neighbours check", allCastles)
-
   for (let castle of allCastles) {
     for (let neighbourC of castle.neighbours) {
-      console.log("vor if")
-
       if (neighbourC.occ !== null) {
-        console.log("found one")
         occNearCastle[neighbourC.occ]++
       }
     }
@@ -201,29 +196,31 @@ function castleScoring(G, ctx) {
       id: null,
     }
 
-    console.log("scoring")
     for (let i = 0; i < occNearCastle.length; i++) {
-      if (mostOcc.score < occNearCastle[i]) {
+      if (castle.occ === null) {
+        continue
+      } else if (mostOcc.score < occNearCastle[i]) {
         mostOcc.score = occNearCastle[i]
         mostOcc.id = i
-
-        console.log(mostOcc)
       } else if (mostOcc.score === occNearCastle[i]) {
         mostOcc.id = castle.firstPlayerID
-        console.log(castle.firstPlayerID)
       }
     }
 
     castle.occ = mostOcc.id
-    console.log(castle.occ)
-    G.player[castle.occ].score += 5
-    console.log(G.player[castle.occ].score)
+    console.log("castle.occ: ", castle.occ)
   }
 }
+
+// wtf we broke everything
+// I KNOW HOW TO FIX :D
+
+function castleScoring(G, ctx) {} //TODO
 
 /** @type {Game} */
 export const Game = {
   setup: ({ random, ctx }) => {
+    // TODO player colours
     const colours = [
       "rgb(134, 7, 7)",
       "rgb(2, 0, 145)",
@@ -243,7 +240,7 @@ export const Game = {
         itemSave: [],
       }
 
-      player.bag.length = 36
+      player.bag.length = 6
       player.bag
         .fill("F", 0, 12)
         .fill("E", 12, 24)
@@ -344,7 +341,7 @@ WWWFCDPWWWW
       ) {
         return INVALID_MOVE
       } else if (
-        // if village
+        // if village record influence
         board[id].type === "D" &&
         (players[currPlayer].handTile === 1 ||
           players[currPlayer].handTile === 2 ||
@@ -367,19 +364,22 @@ WWWFCDPWWWW
 
       // something something about castles
       // if not occ setting occ to currPlayer
-      for (let checkCastle of board[id].neighbours) {
-        // cant enter if
+
+      for (let checkCastle of board[id - 1].neighbours) {
+        checkCastle = board[checkCastle]
+
         if (checkCastle.type === "C" && checkCastle.occ === null) {
-          //TODO fix
           checkCastle.occ = currPlayer
           checkCastle.firstPlayerID = currPlayer
-          console.log("first on castle", checkCastle.firstPlayerID)
         }
+        updateCastleOcc(state.G, state.ctx)
       }
 
       // new handTile
       players[currPlayer].handTile = players[currPlayer].bag.shift()
       searchScore(state, id)
+
+      // castle scoring at the end
     },
   },
 
@@ -410,7 +410,6 @@ WWWFCDPWWWW
     }
 
     console.log("The End")
-    // castleScoring(G, ctx)
     let bestPlayer = {
       score: 0,
       id: 0,
