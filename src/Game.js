@@ -4,6 +4,30 @@ import { TurnOrder } from "boardgame.io/core"
 
 import { INVALID_MOVE } from "boardgame.io/core"
 
+function isGameOver(G, ctx) {
+  const player = G.player
+
+  for (let i = 0; i < ctx.numPlayers; i++) {
+    if (player[i].handTile !== undefined) {
+      return null
+    }
+  }
+
+  let bestPlayer = {
+    score: 0,
+    id: 0,
+  }
+
+  for (let i = 0; i < ctx.numPlayers; i++) {
+    if (player[i].score > bestPlayer.score) {
+      bestPlayer.score = player[i].score
+      bestPlayer.id = player[i].id
+    }
+  }
+
+  return bestPlayer
+}
+
 function searchScore(state, curID) {
   //elec & farm scoring
   if (
@@ -170,23 +194,25 @@ function getNeighbours(board) {
   }
 }
 
-function updateCastleOcc(G, ctx) {
-  // TODO wie aufm Zettel tomorrow
-  console.log("has been called")
-  let allCastles = []
+function updateCastleOcc(state, ctx, id) {
+  let allNeighCastles = []
   let occNearCastle = Array(ctx.numPlayers).fill(0)
+  let board = state.G.board
 
-  // getting all castles on the board
-  for (let possCastle of G.board) {
+  // getting all neighbouring castles to the clicked tile
+  for (let possCastle of board[id - 1].neighbours) {
+    possCastle = board[possCastle]
+
     if (possCastle.type === "C" && possCastle.occ !== null) {
-      allCastles.push(possCastle)
+      allNeighCastles.push(possCastle)
+      // console.log("all Neigh Castles: ", JSON.stringify(allNeighCastles))
     }
   }
 
-  for (let castle of allCastles) {
+  for (let castle of allNeighCastles) {
     for (let neighbourC of castle.neighbours) {
-      if (neighbourC.occ !== null) {
-        occNearCastle[neighbourC.occ]++
+      if (board[neighbourC - 1].occ !== null) {
+        occNearCastle[board[neighbourC - 1].occ]++
       }
     }
 
@@ -197,9 +223,7 @@ function updateCastleOcc(G, ctx) {
     }
 
     for (let i = 0; i < occNearCastle.length; i++) {
-      if (castle.occ === null) {
-        continue
-      } else if (mostOcc.score < occNearCastle[i]) {
+      if (mostOcc.score < occNearCastle[i]) {
         mostOcc.score = occNearCastle[i]
         mostOcc.id = i
       } else if (mostOcc.score === occNearCastle[i]) {
@@ -208,14 +232,36 @@ function updateCastleOcc(G, ctx) {
     }
 
     castle.occ = mostOcc.id
-    console.log("castle.occ: ", castle.occ)
   }
 }
 
 // wtf we broke everything
 // I KNOW HOW TO FIX :D
+// and it's actually fixed now
 
-function castleScoring(G, ctx) {} //TODO
+function castleScoring(G, ctx) {
+  let board = G.board
+  let player = G.player
+
+  for (let tile of board) {
+    if (tile.type == "C" && tile.occ !== null) {
+      player[tile.occ].score += 5
+    }
+  }
+}
+
+// TODO FIX something's broken
+function portScoring(G, ctx, id) {
+  console.log("called port scoring")
+  let board = G.board
+  let player = G.player
+  console.log(board[id - 1].port, board[id - 1].occ)
+
+  if (board[id - 1].port === true) {
+    console.log("port", player[board[id - 1].occ].score)
+    player[board[id - 1].occ].score++ // undefined
+  }
+}
 
 /** @type {Game} */
 export const Game = {
@@ -240,7 +286,7 @@ export const Game = {
         itemSave: [],
       }
 
-      player.bag.length = 6
+      player.bag.length = 36
       player.bag
         .fill("F", 0, 12)
         .fill("E", 12, 24)
@@ -287,6 +333,8 @@ WWWFDFCDDWW
 WWWFCDPWWWW
 `
 
+    const portIds = [3, 19, 46, 79, 87, 141, 157, 204]
+
     let id = 1
     const board = []
     let rowNum = 0
@@ -304,10 +352,17 @@ WWWFCDPWWWW
         //null - not occupied. 0 - occupied by player 1. 1 - occupied by player 2
         //2 - occupied by player 3. 3 - occupied by player 4
         row: rowNum,
+        port: false,
       }
 
+      // plains extra
       if (kategorie === "P") {
         Tile.usedItem = null
+      }
+
+      // port extra
+      if (portIds.includes(id + 1)) {
+        Tile.port = true
       }
 
       id++
@@ -360,10 +415,11 @@ WWWFCDPWWWW
         return INVALID_MOVE
       }
 
-      state.G.board[id].occ = currPlayer
+      board[id].occ = currPlayer
 
       // something something about castles
       // if not occ setting occ to currPlayer
+      // or calling updateCastleOcc
 
       for (let checkCastle of board[id - 1].neighbours) {
         checkCastle = board[checkCastle]
@@ -371,15 +427,22 @@ WWWFCDPWWWW
         if (checkCastle.type === "C" && checkCastle.occ === null) {
           checkCastle.occ = currPlayer
           checkCastle.firstPlayerID = currPlayer
+        } else if (checkCastle.type === "C") {
+          updateCastleOcc(state, state.ctx, id)
         }
-        updateCastleOcc(state.G, state.ctx)
       }
+
+      // port scoring TODO FIX
+      // portScoring(state.G, state.ctx, id)
 
       // new handTile
       players[currPlayer].handTile = players[currPlayer].bag.shift()
       searchScore(state, id)
 
       // castle scoring at the end
+      if (isGameOver(state.G, state.ctx)) {
+        castleScoring(state.G, state.ctx)
+      }
     },
   },
 
@@ -410,6 +473,7 @@ WWWFCDPWWWW
     }
 
     console.log("The End")
+
     let bestPlayer = {
       score: 0,
       id: 0,
