@@ -39,6 +39,7 @@ export function draw(
     ctx.fillText("WINNER: player " + (bestPlayer + 1), 1150, 340)
   }
 }
+
 function drawUI(state, ctx) {
   ctx.lineWidth = 1
   let currPlayer = state.ctx.currentPlayer
@@ -211,7 +212,7 @@ function hexagon(ctx, state, x, y, a, b) {
       }
 
       // temporary debug
-      ctx.fillStyle = "black"
+      ctx.fillStyle = "rgba(92, 84, 84, 0.69)"
       ctx.textBaseline = "middle"
       ctx.textAlign = "center"
       ctx.font = "20px Times New Roman"
@@ -225,13 +226,13 @@ function hexagon(ctx, state, x, y, a, b) {
         }
 
         if (tile.type === "C") {
-          tileOccBy = "C"
+          tileOccBy = Number.parseInt(tile.occ) + 1
         }
 
         ctx.fillStyle = state.G.player[tile.occ].colour
         ctx.textBaseline = "middle"
         ctx.textAlign = "center"
-        ctx.font = "20px Times New Roman"
+        ctx.font = "24px Times New Roman"
         ctx.fillText(tileOccBy, x - 1, y + 2 * b - 1)
       }
 
