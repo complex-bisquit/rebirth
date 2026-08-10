@@ -31,8 +31,9 @@ export function draw(
 
   if (state.ctx.gameover) {
     const bestPlayer = state.ctx.gameover.id
+    let players = state.G.player
 
-    ctx.fillStyle = state.G.player[bestPlayer].colour
+    ctx.fillStyle = players[bestPlayer].colour
     ctx.font = "25px Times New Roman"
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
@@ -42,9 +43,10 @@ export function draw(
 
 function drawUI(state, ctx) {
   ctx.lineWidth = 1
-  let currPlayer = state.ctx.currentPlayer
+  const currPlayer = state.ctx.currentPlayer
+  const players = state.G.player
 
-  ctx.fillStyle = state.G.player[currPlayer].colour
+  ctx.fillStyle = players[currPlayer].colour
   ctx.strokeStyle = "black"
   ctx.font = "30px Times New Roman"
   ctx.textAlign = "center"
@@ -62,7 +64,7 @@ function drawUI(state, ctx) {
   ctx.fillRect(1050, 725, 200, 72)
 
   // current player
-  ctx.fillStyle = state.G.player[currPlayer].colour
+  ctx.fillStyle = players[currPlayer].colour
   ctx.fillText("player: " + (Number.parseInt(currPlayer) + 1), 1150, 40)
 
   // score per player
@@ -70,25 +72,25 @@ function drawUI(state, ctx) {
   ctx.fillText("scores: ", 1150, 170)
 
   for (let i = 0; i < state.ctx.numPlayers; i++) {
-    ctx.fillStyle = state.G.player[i].colour
+    ctx.fillStyle = players[i].colour
     ctx.fillText(
-      "player" + (i + 1) + ": " + state.G.player[i].score,
+      "player" + (i + 1) + ": " + players[i].score,
       1150,
       230 + 60 * i,
     )
   }
 
   // current handTile
-  ctx.fillStyle = state.G.player[currPlayer].colour
+  ctx.fillStyle = players[currPlayer].colour
 
   const dorfCheck =
-    typeof state.G.player[currPlayer].handTile === "number"
-      ? "V" + state.G.player[currPlayer].handTile
-      : state.G.player[currPlayer].handTile
+    typeof players[currPlayer].handTile === "number"
+      ? "V" + players[currPlayer].handTile
+      : players[currPlayer].handTile
   ctx.fillText("hand: " + dorfCheck, 1150, 590)
 
   // two saved items
-  ctx.fillText("saved: " + state.G.player[currPlayer].itemSave, 1150, 760) //TODO village influence
+  ctx.fillText("saved: " + players[currPlayer].itemSave, 1150, 760) //TODO village influence
 
   // left side of ui
   ctx.strokeRect(75, 0, 400, 250)
@@ -104,19 +106,38 @@ function drawUI(state, ctx) {
   ctx.font = "30px Times New Roman"
   ctx.textAlign = "left"
   ctx.textBaseline = "middle"
-  ctx.fillText("legend: ", 100, 575)
-  ctx.fillStyle = "rgb(167, 95, 149)"
-  ctx.fillText("pink: castle (C)", 100, 605)
-  ctx.fillStyle = "rgb(92, 142, 146)"
-  ctx.fillText("blueish grey: electricity (E)", 100, 635)
-  ctx.fillStyle = "rgb(11, 182, 19)"
-  ctx.fillText("light green: plains (F/E)", 100, 665)
-  ctx.fillStyle = "rgb(13, 138, 13)"
-  ctx.fillText("dark green: farm (F)", 100, 695)
-  ctx.fillStyle = "rgb(193, 196, 60)"
-  ctx.fillText("yellow: cathedral (M)", 100, 725)
-  ctx.fillStyle = "rgb(204, 136, 10)"
-  ctx.fillText("orange: village (V)", 100, 755)
+
+  const textX = 100
+  let textY = 575
+  const fillStyles = [
+    "rgb(0, 0, 0)",
+    "rgb(167, 95, 149)",
+    "rgb(92, 142, 146)",
+    "rgb(11, 182, 19)",
+    "rgb(13, 138, 13)",
+    "rgb(193, 196, 60)",
+    "rgb(204, 136, 10)",
+    "rgb(133, 177, 144)",
+  ]
+  const texts = [
+    "legend: ",
+    "pink: castle (C)",
+    "blueish grey: electricity (E)",
+    "light green: plains (F/E)",
+    "dark green: farm (F)",
+    "yellow: cathedral (M)",
+    "orange: village (V)",
+    " - village with port",
+  ]
+
+  for (let i = 0; i < fillStyles.length; i++) {
+    let colour = fillStyles[i]
+    let text = texts[i]
+
+    ctx.fillStyle = colour
+    ctx.fillText(text, textX, textY)
+    textY += 30
+  }
 }
 
 function mouseHandler(ctx, mouseX, mouseY, x, y, a, b, state, moves) {
@@ -177,13 +198,18 @@ function hexagon(ctx, state, x, y, a, b) {
   for (let countRow = 1; countRow < 20; countRow++) {
     for (let i = 1; i < 12; i++) {
       ctx.beginPath()
-      const tile = state.G.board[i - 1 + (countRow - 1) * 11]
+      const tile = board[i - 1 + (countRow - 1) * 11]
 
       // colour per hexagon
       if (tile.type === "W") {
         ctx.fillStyle = "rgb(3, 174, 197)"
       } else if (tile.type === "D") {
-        ctx.fillStyle = "rgb(204, 136, 10)"
+        // port extra
+        if (tile.port) {
+          ctx.fillStyle = "rgb(133, 177, 144)"
+        } else {
+          ctx.fillStyle = "rgb(204, 136, 10)"
+        }
       } else if (tile.type === "E") {
         ctx.fillStyle = "rgb(92, 142, 146)"
       } else if (tile.type === "P") {
