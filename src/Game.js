@@ -28,7 +28,7 @@ function isGameOver(G, ctx) {
   return bestPlayer
 }
 
-function searchScore(state, curID) {
+function searchScoreEF(state, curID) {
   //elec & farm scoring
   if (
     state.G.board[curID].type === "F" ||
@@ -62,16 +62,67 @@ function searchScore(state, curID) {
 
     state.G.player[state.ctx.currentPlayer].score += visited.length
   }
+}
 
-  //village scoring
-  if (state.G.board[curID].type === "D") {
-    let curCurID = state.G.board[curID]
+function setVillOcc(state, id) {
+  const board = state.G.board
+  let currPlayer = state.ctx.currentPlayer
+  let players = state.G.player
+
+  if (board[id].type === "D") {
+    let curCurID = board[id]
     let unvisited = [curCurID]
     let visited = []
 
     while (unvisited.length !== 0) {
       for (let tileID of curCurID.neighbours) {
-        const tile = state.G.board[tileID - 1]
+        const tile = board[tileID - 1]
+
+        if (visited.includes(tile) || unvisited.includes(tile)) {
+          continue
+        }
+
+        if (tile.type === curCurID.type) {
+          unvisited.push(tile)
+        }
+      }
+
+      visited.push(curCurID)
+      curCurID = unvisited[1]
+      unvisited.shift()
+    }
+
+    let wasOcc = 0
+
+    for (let someTile of visited) {
+      if (someTile.occ !== null) {
+        wasOcc += 1
+        break
+      }
+    }
+
+    if (wasOcc === 0) {
+      const occPlayer = players[currPlayer].id
+      for (let vill of visited) {
+        vill.firstPlayerID = occPlayer
+      }
+    }
+  }
+}
+
+function searchScoreV(state, curID) {
+  //village scoring
+  const board = state.G.board
+  const players = state.G.player
+
+  if (board[curID].type === "D") {
+    let curCurID = board[curID]
+    let unvisited = [curCurID]
+    let visited = []
+
+    while (unvisited.length !== 0) {
+      for (let tileID of curCurID.neighbours) {
+        const tile = board[tileID - 1]
 
         if (visited.includes(tile) || unvisited.includes(tile)) {
           continue
@@ -88,72 +139,81 @@ function searchScore(state, curID) {
     }
 
     //influence tracking
-    let mostInfluence = {
+    let mstInfl = {
       score: 0,
       id: 0,
     }
-    let secondMostInfluence = {
+    let secMstInfl = {
       score: 0,
       id: 0,
     }
 
-    let checkInfluence = Array(state.ctx.numPlayers).fill(0)
+    let inflPlayer = Array(state.ctx.numPlayers).fill(0)
     let wasUnOcc = 0
 
-    for (let goodTile of visited) {
-      if (goodTile.occ === null) {
+    for (let someTile of visited) {
+      if (someTile.occ === null) {
         wasUnOcc += 1
         break
       }
     }
 
     if (wasUnOcc === 0) {
+      // counting all influence per player
       for (let i = 0; i < visited.length; i++) {
-        const goodPlayer = visited[i].occ
-        checkInfluence[goodPlayer] += visited[i].influence
+        const occPlayer = visited[i].occ
+        inflPlayer[occPlayer] += visited[i].influence
       }
 
-      // console.log("checking checkInfl", checkInfluence)
-      for (let i = 0; i < checkInfluence.length; i++) {
+      // getting player with most/ second most influence
+      for (let i = 0; i < inflPlayer.length; i++) {
         //HELL 3rd edition
-        if (checkInfluence[i] > mostInfluence.score) {
-          mostInfluence.score = checkInfluence[i]
-          mostInfluence.id = i
-          //console.dir("Check most Influence", mostInfluence)
+
+        // if player has more infl than mstInfl.score
+        if (inflPlayer[i] > mstInfl.score) {
+          mstInfl.score = inflPlayer[i]
+          mstInfl.id = i
         }
 
+        // if player has secMstInfl (<=)
         if (
-          checkInfluence[i] <= mostInfluence.score &&
-          checkInfluence[i] > secondMostInfluence.score &&
-          mostInfluence.id !== i
+          inflPlayer[i] <= mstInfl.score &&
+          inflPlayer[i] > secMstInfl.score &&
+          mstInfl.id !== i
         ) {
-          secondMostInfluence.score = checkInfluence[i]
-          secondMostInfluence.id = i
-          //console.log("Check secmost Influence", secondMostInfluence)
+          secMstInfl.score = inflPlayer[i]
+          secMstInfl.id = i
         }
       }
+
+      let vScore = 0
+      let secVScore = 0
 
       if (visited.length === 2) {
-        mostInfluence.score = 5
-        secondMostInfluence.score = 3
+        vScore = 5
+        secVScore = 3
       } else if (visited.length === 3) {
-        mostInfluence.score = 8
-        secondMostInfluence.score = 5
+        vScore = 8
+        secVScore = 5
       }
 
-      //console.log(
-      //  "Check most and secmost Influence",
-      //  mostInfluence,
-      //  secondMostInfluence,
-      //)
+      // ties
+      // TODO
+      if (mstInfl.score === secMstInfl.score) {
+        console.log("TODO FIX")
+        let otherPlayer = null
 
-      state.G.player[mostInfluence.id].score += mostInfluence.score
-      state.G.player[secondMostInfluence.id].score += secondMostInfluence.score
+        players[board[curID].firstPlayerID].score += vScore
+        players[otherPlayer].score += secVScore
+      } else {
+        players[mstInfl.id].score += vScore
+        players[secMstInfl.id].score += secVScore
+      }
     }
   }
 }
 
-function getNeighbours(board) {
+function setNeighbours(board) {
   let offset = 0 // HELL
 
   for (const tile of board) {
@@ -197,7 +257,7 @@ function getNeighbours(board) {
 function updateCastleOcc(state, ctx, id) {
   let allNeighCastles = []
   let occNearCastle = Array(ctx.numPlayers).fill(0)
-  let board = state.G.board
+  const board = state.G.board
 
   // getting all neighbouring castles to the clicked tile
   for (let possCastle of board[id - 1].neighbours) {
@@ -240,8 +300,8 @@ function updateCastleOcc(state, ctx, id) {
 // and it's actually fixed now
 
 function castleScoring(G, ctx) {
-  let board = G.board
-  let player = G.player
+  const board = G.board
+  const player = G.player
 
   for (let tile of board) {
     if (tile.type == "C" && tile.occ !== null) {
@@ -250,22 +310,19 @@ function castleScoring(G, ctx) {
   }
 }
 
-// TODO FIX something's broken
 function portScoring(G, ctx, id) {
-  console.log("called port scoring")
-  let board = G.board
-  let player = G.player
-  console.log(board[id - 1].port, board[id - 1].occ)
+  const board = G.board
+  const player = G.player
 
-  if (board[id - 1].port === true) {
-    console.log("port", player[board[id - 1].occ].score)
-    player[board[id - 1].occ].score++ // undefined
+  if (board[id].port === true) {
+    player[board[id].occ].score++
   }
 }
 
 /** @type {Game} */
 export const Game = {
   setup: ({ random, ctx }) => {
+    ctx.numPlayers = 3
     // TODO player colours
     const colours = [
       "rgb(134, 7, 7)",
@@ -361,7 +418,7 @@ WWWFCDPWWWW
       }
 
       // port extra
-      if (portIds.includes(id + 1)) {
+      if (portIds.includes(id)) {
         Tile.port = true
       }
 
@@ -374,7 +431,7 @@ WWWFCDPWWWW
       player: playerRelated,
     }
 
-    getNeighbours(board)
+    setNeighbours(board)
 
     return gameState
   },
@@ -404,6 +461,7 @@ WWWFCDPWWWW
           players[currPlayer].handTile === 4)
       ) {
         board[id].influence = players[currPlayer].handTile
+        setVillOcc(state, id)
       } else if (
         //if plains set used item to handTile
         board[id].type === "P" &&
@@ -420,7 +478,6 @@ WWWFCDPWWWW
       // something something about castles
       // if not occ setting occ to currPlayer
       // or calling updateCastleOcc
-
       for (let checkCastle of board[id - 1].neighbours) {
         checkCastle = board[checkCastle]
 
@@ -432,12 +489,12 @@ WWWFCDPWWWW
         }
       }
 
-      // port scoring TODO FIX
-      // portScoring(state.G, state.ctx, id)
+      portScoring(state.G, state.ctx, id)
 
       // new handTile
       players[currPlayer].handTile = players[currPlayer].bag.shift()
-      searchScore(state, id)
+      searchScoreEF(state, id)
+      searchScoreV(state, id)
 
       // castle scoring at the end
       if (isGameOver(state.G, state.ctx)) {
@@ -460,7 +517,6 @@ WWWFCDPWWWW
 
   minPlayers: 2,
   maxPlayers: 4,
-  numPlayers: 3,
   disableUndo: true,
 
   endIf: ({ G, ctx, random }) => {
