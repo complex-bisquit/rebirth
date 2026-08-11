@@ -64,48 +64,56 @@ function searchScoreEF(state, curID) {
   }
 }
 
+function villNeighbours(state, curID) {
+  const board = state.G.board
+  const players = state.G.player
+
+  if (board[curID].type !== "D") {
+    return []
+  }
+  let curCurID = board[curID]
+  let unvisited = [curCurID]
+  let visited = []
+
+  while (unvisited.length !== 0) {
+    for (let tileID of curCurID.neighbours) {
+      const tile = board[tileID - 1]
+
+      if (visited.includes(tile) || unvisited.includes(tile)) {
+        continue
+      }
+
+      if (tile.type === curCurID.type) {
+        unvisited.push(tile)
+      }
+    }
+
+    visited.push(curCurID)
+    curCurID = unvisited[1]
+    unvisited.shift()
+  }
+  return visited
+}
+
 function setVillOcc(state, id) {
   const board = state.G.board
+  const visited = villNeighbours(state, id)
   let currPlayer = state.ctx.currentPlayer
   let players = state.G.player
 
-  if (board[id].type === "D") {
-    let curCurID = board[id]
-    let unvisited = [curCurID]
-    let visited = []
+  let wasOcc = 0
 
-    while (unvisited.length !== 0) {
-      for (let tileID of curCurID.neighbours) {
-        const tile = board[tileID - 1]
-
-        if (visited.includes(tile) || unvisited.includes(tile)) {
-          continue
-        }
-
-        if (tile.type === curCurID.type) {
-          unvisited.push(tile)
-        }
-      }
-
-      visited.push(curCurID)
-      curCurID = unvisited[1]
-      unvisited.shift()
+  for (let someTile of visited) {
+    if (someTile.occ !== null) {
+      wasOcc += 1
+      break
     }
+  }
 
-    let wasOcc = 0
-
-    for (let someTile of visited) {
-      if (someTile.occ !== null) {
-        wasOcc += 1
-        break
-      }
-    }
-
-    if (wasOcc === 0) {
-      const occPlayer = players[currPlayer].id
-      for (let vill of visited) {
-        vill.firstPlayerID = occPlayer
-      }
+  if (wasOcc === 0) {
+    const occPlayer = players[currPlayer].id
+    for (let vill of visited) {
+      vill.firstPlayerID = occPlayer
     }
   }
 }
@@ -114,100 +122,164 @@ function searchScoreV(state, curID) {
   //village scoring
   const board = state.G.board
   const players = state.G.player
+  const visited = villNeighbours(state, curID)
 
-  if (board[curID].type === "D") {
-    let curCurID = board[curID]
-    let unvisited = [curCurID]
-    let visited = []
+  if (board[curID].type !== "D") {
+    return
+  }
 
-    while (unvisited.length !== 0) {
-      for (let tileID of curCurID.neighbours) {
-        const tile = board[tileID - 1]
+  //influence tracking
+  let mstInfl = {
+    score: 0,
+    id: 0,
+  }
+  let secMstInfl = {
+    score: 0,
+    id: 0,
+  }
 
-        if (visited.includes(tile) || unvisited.includes(tile)) {
-          continue
-        }
+  let inflPlayer = Array(state.ctx.numPlayers).fill(0)
+  let wasUnOcc = 0
 
-        if (tile.type === curCurID.type) {
-          unvisited.push(tile)
-        }
+  for (let someTile of visited) {
+    if (someTile.occ === null) {
+      wasUnOcc += 1
+      break
+    }
+  }
+
+  if (wasUnOcc === 0) {
+    // counting all influence per player
+    for (let i = 0; i < visited.length; i++) {
+      const occPlayer = visited[i].occ
+      inflPlayer[occPlayer] += visited[i].influence
+    }
+
+    // getting player with most influence
+    for (let i = 0; i < inflPlayer.length; i++) {
+      //HELL 3rd edition
+
+      // if player has more infl than mstInfl.score
+      if (inflPlayer[i] > mstInfl.score) {
+        mstInfl.score = inflPlayer[i]
+        mstInfl.id = i
       }
-
-      visited.push(curCurID)
-      curCurID = unvisited[1]
-      unvisited.shift()
     }
 
-    //influence tracking
-    let mstInfl = {
-      score: 0,
-      id: 0,
-    }
-    let secMstInfl = {
-      score: 0,
-      id: 0,
-    }
-
-    let inflPlayer = Array(state.ctx.numPlayers).fill(0)
-    let wasUnOcc = 0
-
-    for (let someTile of visited) {
-      if (someTile.occ === null) {
-        wasUnOcc += 1
-        break
+    for (let j = 0; j < inflPlayer.length; j++) {
+      // if player has secMstInfl (<=)
+      if (
+        inflPlayer[j] <= mstInfl.score &&
+        inflPlayer[j] > secMstInfl.score &&
+        mstInfl.id !== j
+      ) {
+        secMstInfl.score = inflPlayer[j]
+        secMstInfl.id = j
       }
     }
 
-    if (wasUnOcc === 0) {
-      // counting all influence per player
+    let vScore = 0
+    let vScore2 = 0
+    let vPlayer = null
+    let vPlayer2 = null
+    const villID = visited[0].id - 1
+
+    if (visited.length === 1) {
+      // player gets points based on influence
+      vPlayer = board[villID].occ
+      vScore = board[villID].influence
+      players[vPlayer].score += vScore
+      //
+    } else if (visited.length === 2) {
+      if (mstInfl.score === secMstInfl.score) {
+        // player who first occ village gets points
+        vScore = 5
+        vPlayer = board[villID].firstPlayerID
+        players[vPlayer].score += vScore
+        //
+      } else if (secMstInfl.score === 0) {
+        // if only one player occs everything
+        vScore = 5
+        vPlayer = board[villID].firstPlayerID
+        vScore2 = 3
+        vPlayer2 = vPlayer
+        players[vPlayer].score += vScore
+        players[vPlayer2].score += vScore2
+        //
+      } else {
+        vScore = 5
+        vScore2 = 3
+        vPlayer = mstInfl.id
+        vPlayer2 = secMstInfl.id
+        players[vPlayer].score += vScore
+        players[vPlayer2].score += vScore2
+      }
+      //
+    } else if (visited.length === 3) {
+      if (secMstInfl.score === 0) {
+        // if only one player occs everything
+        vScore = 8
+        vPlayer = board[villID].firstPlayerID
+        vScore2 = 5
+        vPlayer2 = vPlayer
+        players[vPlayer].score += vScore
+        players[vPlayer2].score += vScore2
+        //
+      } else if (mstInfl.score === secMstInfl.score) {
+        // player who first occ village gets points
+        vScore = 5
+        vPlayer = board[villID].firstPlayerID
+        vScore2 = 3
+        for (let tile of visited) {
+          if (tile.occ !== board[villID].firstPlayerID) {
+            vPlayer2 = tile.occ
+            break
+          }
+        }
+        players[vPlayer].score += vScore
+        players[vPlayer2].score += vScore2
+        // and i am deliberately choosing to ignore any three way ties
+        // maybe ill fix this one day
+      } else {
+        vScore = 8
+        vScore2 = 5
+        vPlayer = mstInfl.id
+        vPlayer2 = secMstInfl.id
+        console.log("play1, play2", vPlayer, vPlayer2)
+        players[vPlayer].score += vScore
+        players[vPlayer2].score += vScore2
+      }
+    }
+  }
+}
+
+// somethings broken
+// TODO fix
+function endSearchScoreV(state) {
+  const board = state.G.board
+  const players = state.G.player
+
+  for (let tile of board) {
+    if (tile.type !== "D") {
+      continue
+    }
+    const visited = villNeighbours(state, tile.id)
+
+    let occCount = 0
+    for (let checkOcc of visited) {
+      if (checkOcc.occ === null) occCount += 1
+    }
+    if (occCount > 0) {
+      let inflPlayer = Array(state.ctx.numPlayers).fill(0)
       for (let i = 0; i < visited.length; i++) {
         const occPlayer = visited[i].occ
+        console.log("occPlayer", occPlayer)
         inflPlayer[occPlayer] += visited[i].influence
       }
 
-      // getting player with most/ second most influence
       for (let i = 0; i < inflPlayer.length; i++) {
-        //HELL 3rd edition
-
-        // if player has more infl than mstInfl.score
-        if (inflPlayer[i] > mstInfl.score) {
-          mstInfl.score = inflPlayer[i]
-          mstInfl.id = i
-        }
-
-        // if player has secMstInfl (<=)
-        if (
-          inflPlayer[i] <= mstInfl.score &&
-          inflPlayer[i] > secMstInfl.score &&
-          mstInfl.id !== i
-        ) {
-          secMstInfl.score = inflPlayer[i]
-          secMstInfl.id = i
-        }
-      }
-
-      let vScore = 0
-      let secVScore = 0
-
-      if (visited.length === 2) {
-        vScore = 5
-        secVScore = 3
-      } else if (visited.length === 3) {
-        vScore = 8
-        secVScore = 5
-      }
-
-      // ties
-      // TODO
-      if (mstInfl.score === secMstInfl.score) {
-        console.log("TODO FIX")
-        let otherPlayer = null
-
-        players[board[curID].firstPlayerID].score += vScore
-        players[otherPlayer].score += secVScore
-      } else {
-        players[mstInfl.id].score += vScore
-        players[secMstInfl.id].score += secVScore
+        console.log("inflPlayer", inflPlayer[i])
+        players[i].score += inflPlayer[i]
       }
     }
   }
@@ -322,7 +394,7 @@ function portScoring(G, ctx, id) {
 /** @type {Game} */
 export const Game = {
   setup: ({ random, ctx }) => {
-    ctx.numPlayers = 3
+    ctx.numPlayers = 2
     // TODO player colours
     const colours = [
       "rgb(134, 7, 7)",
@@ -343,14 +415,25 @@ export const Game = {
         itemSave: [],
       }
 
-      player.bag.length = 36
-      player.bag
-        .fill("F", 0, 12)
-        .fill("E", 12, 24)
-        .fill(1, 24, 27) // Influence Points village
-        .fill(2, 27, 30)
-        .fill(3, 30, 33)
-        .fill(4, 33, 36)
+      if (ctx.numPlayers === 4) {
+        player.bag.length = 27
+        player.bag
+          .fill("F", 0, 9)
+          .fill("E", 9, 18)
+          .fill(1, 18, 21) // Influence Points village
+          .fill(2, 21, 23)
+          .fill(3, 23, 25)
+          .fill(4, 25, 27)
+      } else {
+        player.bag.length = 36
+        player.bag
+          .fill("F", 0, 12)
+          .fill("E", 12, 24)
+          .fill(1, 24, 27) // Influence Points village
+          .fill(2, 27, 30)
+          .fill(3, 30, 33)
+          .fill(4, 33, 36)
+      }
 
       // shuffle, get rid of 2 random items, get new handtile
       player.bag = random.Shuffle(player.bag)
@@ -498,7 +581,8 @@ WWWFCDPWWWW
 
       // castle scoring at the end
       if (isGameOver(state.G, state.ctx)) {
-        castleScoring(state.G, state.ctx)
+        //castleScoring(state.G, state.ctx)
+        endSearchScoreV(state)
       }
     },
   },
